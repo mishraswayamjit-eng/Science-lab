@@ -1,514 +1,822 @@
+<!doctype html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Grade 5 Science Lab</title>
+<title>Olympiad Revision Hub</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --bg:#F4F7FB; --ink:#16243F; --muted:#5E6E89; --line:#E2E8F2;
-    --card:#FFFFFF; --ok:#2FA866; --no:#E2604A;
-    --display:"Fredoka", "Trebuchet MS", system-ui, sans-serif;
-    --body:"Nunito", system-ui, -apple-system, sans-serif;
-    --shadow:0 10px 30px rgba(20,35,63,.10);
-    --shadow-sm:0 4px 14px rgba(20,35,63,.08);
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0}
-  body{
-    background:var(--bg); color:var(--ink); font-family:var(--body);
-    line-height:1.5; -webkit-font-smoothing:antialiased;
-    background-image:radial-gradient(circle at 12% 8%, rgba(92,107,192,.05), transparent 45%),
-                     radial-gradient(circle at 88% 92%, rgba(47,168,102,.05), transparent 45%);
-    min-height:100vh;
-  }
-  .wrap{max-width:1080px; margin:0 auto; padding:22px 18px 80px}
+/* ============================================================
+   OLYMPIAD REVISION HUB  —  self-contained study asset
+   How to add content:  scroll to the DATA object near the
+   bottom of this file. Add a chapter object to a subject's
+   "chapters" array, or flip a subject's status to "active".
+   Schema is documented just above DATA.
+   ============================================================ */
+:root{
+  --bg:#eef2f6; --panel:#ffffff; --ink:#16243b; --muted:#5b6b82;
+  --line:#dde5ee; --soft:#f4f7fb;
+  --sci:#1f9e6a; --sci-d:#157a51; --sci-soft:#e7f5ee;
+  --math:#5a51d6; --eng:#e8543e;
+  --bite:#f6a609; --bite-soft:#fff4dc;
+  --ok:#1f9e6a; --no:#e8543e;
+  --shadow:0 1px 2px rgba(20,36,59,.06),0 8px 24px rgba(20,36,59,.07);
+  --radius:16px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:Inter,system-ui,sans-serif;font-size:16px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{font-family:"Baloo 2",Inter,sans-serif;line-height:1.15;margin:0}
+a{color:inherit}
+button{font-family:inherit}
+.wrap{max-width:960px;margin:0 auto;padding:0 18px}
 
-  /* ---------- Top bar ---------- */
-  .topbar{display:flex; align-items:center; gap:14px; flex-wrap:wrap; margin-bottom:8px}
-  .brand{display:flex; align-items:center; gap:12px}
-  .flask{font-size:34px; line-height:1; filter:drop-shadow(0 3px 4px rgba(20,35,63,.18))}
-  .brand h1{font-family:var(--display); font-weight:700; font-size:26px; margin:0; letter-spacing:.2px}
-  .brand p{margin:0; font-size:12.5px; color:var(--muted); font-weight:700; letter-spacing:.4px; text-transform:uppercase}
-  .jar{margin-left:auto; display:flex; align-items:center; gap:10px; background:var(--card);
-       border:1px solid var(--line); border-radius:999px; padding:7px 8px 7px 16px; box-shadow:var(--shadow-sm)}
-  .jar b{font-family:var(--display); font-weight:600}
-  .jar .dots{display:flex; gap:4px}
-  .jar .dot{width:11px; height:11px; border-radius:50%; background:#E5EAF3; transition:.3s}
+/* header */
+header.app{
+  position:sticky;top:0;z-index:20;background:rgba(238,242,246,.86);
+  backdrop-filter:blur(8px);border-bottom:1px solid var(--line);
+}
+.app .wrap{display:flex;align-items:center;gap:14px;height:62px}
+.brand{display:flex;align-items:center;gap:10px;cursor:pointer;background:none;border:0;padding:0}
+.logo{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--sci),#2bbf86);color:#fff;font-family:"Baloo 2";font-weight:800;font-size:19px}
+.brand b{font-family:"Baloo 2";font-weight:700;font-size:19px;letter-spacing:.2px}
+.brand span{display:block;font-size:11px;color:var(--muted);font-weight:600;margin-top:-3px;letter-spacing:.3px}
+.crumbs{margin-left:auto;font-size:13px;color:var(--muted);font-weight:600;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.crumbs button{background:none;border:0;color:var(--muted);cursor:pointer;font-weight:600;font-size:13px;padding:2px 0}
+.crumbs button:hover{color:var(--ink)}
+.crumbs .here{color:var(--ink)}
+.crumbs .sep{opacity:.5}
 
-  /* ---------- Home grid ---------- */
-  .lead{margin:14px 2px 20px; font-size:16px; color:var(--muted); max-width:640px; font-weight:600}
-  .lead b{color:var(--ink)}
-  .grid{display:grid; grid-template-columns:repeat(4,1fr); gap:16px}
-  @media(max-width:880px){.grid{grid-template-columns:repeat(2,1fr)}}
-  @media(max-width:480px){.grid{grid-template-columns:1fr 1fr; gap:12px}}
-  .chip{
-    position:relative; cursor:pointer; border:none; text-align:left; font-family:var(--body);
-    background:var(--card); border-radius:20px; padding:18px 16px 16px; box-shadow:var(--shadow-sm);
-    border:1px solid var(--line); transition:transform .15s ease, box-shadow .15s ease; overflow:hidden;
-  }
-  .chip:hover{transform:translateY(-4px); box-shadow:var(--shadow)}
-  .chip:focus-visible{outline:3px solid var(--ink); outline-offset:2px}
-  .chip .bar{position:absolute; inset:0 0 auto 0; height:7px; background:var(--accent)}
-  .chip .num{font-family:var(--display); font-weight:600; font-size:12px; color:var(--accent); letter-spacing:1px; margin-top:4px}
-  .chip .ico{font-size:40px; line-height:1; margin:6px 0 8px; display:block}
-  .chip .nm{font-family:var(--display); font-weight:600; font-size:17px; line-height:1.15}
-  .chip .meta{margin-top:10px; font-size:12.5px; color:var(--muted); font-weight:700; display:flex; align-items:center; gap:6px}
-  .chip .stars{color:var(--accent); letter-spacing:1px}
+main{padding:30px 0 70px;animation:rise .35s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){main,*{animation:none!important;transition:none!important}}
 
-  /* ---------- Chapter view ---------- */
-  .view{display:none}
-  .view.on{display:block; animation:fade .25s ease}
-  @keyframes fade{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
-  .back{display:inline-flex; align-items:center; gap:7px; cursor:pointer; border:1px solid var(--line);
-        background:var(--card); border-radius:999px; padding:8px 16px; font-family:var(--display);
-        font-weight:500; font-size:14px; color:var(--ink); box-shadow:var(--shadow-sm)}
-  .back:hover{background:#fff}
-  .chead{display:flex; align-items:center; gap:14px; margin:16px 2px 6px}
-  .chead .big{font-size:46px; line-height:1}
-  .chead h2{font-family:var(--display); font-weight:700; font-size:30px; margin:0}
-  .chead .sub{color:var(--muted); font-weight:700; font-size:13px}
-  .tabs{display:flex; gap:8px; margin:18px 0 22px; border-bottom:2px solid var(--line)}
-  .tab{cursor:pointer; border:none; background:none; font-family:var(--display); font-weight:500; font-size:16px;
-       color:var(--muted); padding:10px 4px; margin-right:14px; position:relative}
-  .tab.active{color:var(--accent)}
-  .tab.active::after{content:""; position:absolute; left:0; right:0; bottom:-2px; height:3px; background:var(--accent); border-radius:3px}
+/* landing hero */
+.hero{margin-bottom:26px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--sci-d)}
+.hero h1{font-size:clamp(30px,6vw,46px);font-weight:800;margin:6px 0 8px}
+.hero p{color:var(--muted);max-width:60ch;margin:0;font-size:16px}
 
-  /* ---------- Flip cards ---------- */
-  .deckhint{font-size:13.5px; color:var(--muted); font-weight:700; margin:-6px 2px 16px}
-  .deck{display:grid; grid-template-columns:repeat(2,1fr); gap:16px}
-  @media(max-width:680px){.deck{grid-template-columns:1fr}}
-  .flip{perspective:1200px; cursor:pointer; min-height:158px}
-  .flip:focus-visible{outline:3px solid var(--ink); outline-offset:3px; border-radius:18px}
-  .inner{position:relative; width:100%; height:100%; min-height:158px; transition:transform .55s cubic-bezier(.2,.7,.2,1); transform-style:preserve-3d}
-  .flip.flipped .inner{transform:rotateY(180deg)}
-  .face{position:absolute; inset:0; backface-visibility:hidden; border-radius:18px; padding:18px 18px;
-        display:flex; flex-direction:column; justify-content:center; box-shadow:var(--shadow-sm); border:1px solid var(--line)}
-  .face.front{background:var(--card)}
-  .face.front .q{font-family:var(--display); font-weight:600; font-size:17.5px; line-height:1.25}
-  .face.front .tag{font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase; color:var(--accent); margin-bottom:8px}
-  .face.front .turn{margin-top:auto; font-size:12px; color:var(--muted); font-weight:700}
-  .face.back{transform:rotateY(180deg); background:var(--accent); color:#fff; border-color:transparent}
-  .face.back .a{font-size:15.5px; font-weight:700; line-height:1.4}
-  .face.back .tag{font-size:11px; font-weight:800; letter-spacing:1px; text-transform:uppercase; opacity:.85; margin-bottom:8px}
+/* subject cards */
+.subjects{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:26px}
+.subj{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:22px 22px 20px;box-shadow:var(--shadow);text-align:left;cursor:pointer;overflow:hidden;
+  transition:transform .18s ease,box-shadow .18s ease}
+.subj:disabled{cursor:default}
+.subj.active:hover{transform:translateY(-3px);box-shadow:0 6px 14px rgba(20,36,59,.1),0 18px 40px rgba(20,36,59,.1)}
+.subj .spine{position:absolute;left:0;top:0;bottom:0;width:6px}
+.subj .ico{width:46px;height:46px;border-radius:12px;display:grid;place-items:center;font-size:24px;margin-bottom:14px}
+.subj h3{font-size:21px;font-weight:700}
+.subj .grade{font-size:12.5px;font-weight:700;color:var(--muted);margin-top:1px}
+.subj p{font-size:13.5px;color:var(--muted);margin:10px 0 14px}
+.subj .meta{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;font-weight:600}
+.chip-count{color:var(--ink)}
+.tag{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:4px 9px;border-radius:999px}
+.tag.soon{background:#eef1f5;color:#8a98ab}
+.tag.live{background:var(--sci-soft);color:var(--sci-d)}
+.go{font-weight:700;color:var(--sci-d)}
 
-  /* ---------- Quiz ---------- */
-  .quiz{max-width:680px}
-  .qbarwrap{height:9px; background:#E5EAF3; border-radius:999px; overflow:hidden; margin-bottom:6px}
-  .qbar{height:100%; width:0; background:var(--accent); border-radius:999px; transition:width .4s ease}
-  .qcount{font-size:12.5px; color:var(--muted); font-weight:800; margin-bottom:16px; display:flex; justify-content:space-between}
-  .qcard{background:var(--card); border:1px solid var(--line); border-radius:20px; padding:22px; box-shadow:var(--shadow-sm)}
-  .qtext{font-family:var(--display); font-weight:500; font-size:20px; line-height:1.3; margin:0 0 18px}
-  .opts{display:flex; flex-direction:column; gap:10px}
-  .opt{display:flex; gap:12px; align-items:center; text-align:left; cursor:pointer; font-family:var(--body); font-weight:700;
-       font-size:15.5px; background:#F7F9FC; border:2px solid var(--line); border-radius:14px; padding:13px 15px; color:var(--ink); transition:.15s}
-  .opt:hover:not(:disabled){border-color:var(--accent); background:#fff}
-  .opt:disabled{cursor:default}
-  .opt .key{flex:none; width:26px; height:26px; border-radius:8px; background:#fff; border:2px solid var(--line);
-            display:grid; place-items:center; font-family:var(--display); font-weight:600; font-size:14px}
-  .opt.correct{border-color:var(--ok); background:#E9F8F0}
-  .opt.correct .key{background:var(--ok); color:#fff; border-color:var(--ok)}
-  .opt.wrong{border-color:var(--no); background:#FCEDEA}
-  .opt.wrong .key{background:var(--no); color:#fff; border-color:var(--no)}
-  .explain{margin-top:16px; background:#F2F6FB; border-left:4px solid var(--accent); border-radius:10px; padding:12px 14px;
-           font-size:14.5px; font-weight:600; color:#36455f; display:none}
-  .explain.show{display:block; animation:fade .25s ease}
-  .explain b{color:var(--ink)}
-  .qfoot{margin-top:18px; display:flex; justify-content:flex-end}
-  .next{cursor:pointer; border:none; font-family:var(--display); font-weight:600; font-size:16px; color:#fff;
-        background:var(--accent); border-radius:12px; padding:11px 24px; box-shadow:var(--shadow-sm); opacity:.45; pointer-events:none; transition:.2s}
-  .next.on{opacity:1; pointer-events:auto}
-  .next:hover{filter:brightness(.96)}
+/* chapter list */
+.section-head{display:flex;align-items:baseline;gap:12px;margin-bottom:18px;flex-wrap:wrap}
+.section-head h2{font-size:28px;font-weight:800}
+.section-head .count{color:var(--muted);font-weight:600;font-size:14px}
+.chapters{display:grid;gap:13px}
+.chcard{display:flex;gap:16px;align-items:center;background:var(--panel);border:1px solid var(--line);
+  border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);cursor:pointer;text-align:left;width:100%;
+  transition:transform .16s ease,box-shadow .16s ease,border-color .16s}
+.chcard:hover{transform:translateY(-2px);border-color:#cfe6da;box-shadow:0 6px 14px rgba(20,36,59,.09)}
+.chnum{flex:0 0 auto;width:42px;height:42px;border-radius:12px;display:grid;place-items:center;
+  background:var(--sci-soft);color:var(--sci-d);font-family:"Baloo 2";font-weight:800;font-size:19px}
+.chbody{flex:1;min-width:0}
+.chbody h3{font-size:17.5px;font-weight:700}
+.topics{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.topic{font-size:11.5px;font-weight:600;color:var(--sci-d);background:var(--sci-soft);
+  padding:3px 9px;border-radius:999px}
+.charrow{flex:0 0 auto;color:#9fb0c4;font-size:22px}
 
-  /* ---------- Result ---------- */
-  .result{text-align:center; background:var(--card); border:1px solid var(--line); border-radius:22px; padding:34px 24px; box-shadow:var(--shadow); max-width:520px; margin:0 auto}
-  .result .medal{font-size:64px; line-height:1}
-  .result h3{font-family:var(--display); font-weight:700; font-size:26px; margin:10px 0 4px}
-  .result .score{font-family:var(--display); font-weight:600; font-size:40px; color:var(--accent); margin:6px 0}
-  .result p{color:var(--muted); font-weight:700; margin:4px 0 20px}
-  .result .btns{display:flex; gap:10px; justify-content:center; flex-wrap:wrap}
-  .result .btn2{cursor:pointer; font-family:var(--display); font-weight:600; font-size:15px; border-radius:12px; padding:11px 22px; border:2px solid var(--line); background:#fff; color:var(--ink)}
-  .result .btn2.fill{background:var(--accent); color:#fff; border-color:transparent}
-  .hidden{display:none !important}
-  @media (prefers-reduced-motion: reduce){
-    .inner{transition:none}.chip{transition:none}*{scroll-behavior:auto}
-  }
-  .foot{margin-top:42px; text-align:center; font-size:12px; color:var(--muted); font-weight:700}
+/* chapter detail */
+.detail-head{margin-bottom:18px}
+.detail-head .kicker{font-size:12px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--sci-d)}
+.detail-head h2{font-size:clamp(24px,5vw,34px);font-weight:800;margin:4px 0 10px}
+.tabs{display:inline-flex;background:#e4eaf1;border-radius:12px;padding:4px;gap:4px}
+.tabs button{border:0;background:none;padding:9px 20px;border-radius:9px;font-weight:700;font-size:14px;
+  color:var(--muted);cursor:pointer;transition:.15s}
+.tabs button[aria-selected="true"]{background:var(--panel);color:var(--sci-d);box-shadow:0 1px 3px rgba(20,36,59,.1)}
+
+/* notes */
+.notes{margin-top:22px;display:grid;gap:16px}
+.nsec{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;box-shadow:var(--shadow)}
+.nsec h3{font-size:19px;font-weight:700;color:var(--sci-d);margin-bottom:6px;display:flex;align-items:center;gap:9px}
+.nsec h3::before{content:"";width:9px;height:9px;border-radius:3px;background:var(--sci);flex:0 0 auto}
+.nsec .intro{color:var(--muted);margin:2px 0 12px;font-size:15px}
+.nsec ul{margin:6px 0 0;padding-left:0;list-style:none;display:grid;gap:7px}
+.nsec li{position:relative;padding-left:22px;font-size:15.5px}
+.nsec li::before{content:"";position:absolute;left:4px;top:10px;width:6px;height:6px;border-radius:50%;
+  background:var(--sci);opacity:.7}
+.nsec li b{font-weight:700}
+.deflist{display:grid;gap:8px;margin-top:6px}
+.def{display:grid;grid-template-columns:minmax(120px,170px) 1fr;gap:12px;align-items:start;
+  padding:9px 0;border-bottom:1px dashed var(--line)}
+.def:last-child{border-bottom:0}
+.def dt{font-weight:700;color:var(--ink)}
+.def dd{margin:0;color:var(--muted);font-size:15px}
+table.facts{width:100%;border-collapse:collapse;margin-top:8px;font-size:14.5px}
+table.facts th,table.facts td{text-align:left;padding:9px 11px;border:1px solid var(--line);vertical-align:top}
+table.facts th{background:var(--sci-soft);color:var(--sci-d);font-weight:700;font-family:Inter}
+table.facts tr:nth-child(even) td{background:var(--soft)}
+.bite{margin-top:14px;background:var(--bite-soft);border:1px solid #f4dca0;border-radius:12px;
+  padding:13px 15px 13px 44px;position:relative;font-size:14.5px}
+.bite::before{content:"\1F4A1";position:absolute;left:14px;top:12px;font-size:18px}
+.bite b{color:#a06b00;display:block;font-family:"Baloo 2";font-weight:700;font-size:13px;letter-spacing:.4px;
+  text-transform:uppercase;margin-bottom:2px}
+
+/* quiz */
+.quiz{margin-top:22px}
+.qbar{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.progress{flex:1;min-width:160px;height:8px;background:#e1e8f0;border-radius:999px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--sci);width:0;transition:width .3s ease}
+.score{font-weight:700;font-size:14px;color:var(--muted)}
+.score b{color:var(--sci-d)}
+.qcard{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:20px 22px;box-shadow:var(--shadow)}
+.qcard .qn{font-size:12px;font-weight:700;letter-spacing:.6px;text-transform:uppercase;color:var(--muted)}
+.qcard .qtext{font-size:18px;font-weight:600;margin:7px 0 16px;font-family:"Baloo 2"}
+.opts{display:grid;gap:10px}
+.opt{display:flex;gap:12px;align-items:center;text-align:left;width:100%;background:var(--soft);
+  border:1.5px solid var(--line);border-radius:11px;padding:13px 15px;font-size:15.5px;cursor:pointer;
+  transition:.14s;color:var(--ink)}
+.opt:hover:not(:disabled){border-color:#bcd9ca;background:#fff}
+.opt:disabled{cursor:default}
+.opt .key{flex:0 0 auto;width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
+  background:#e4eaf1;font-weight:700;font-size:13px;color:var(--muted)}
+.opt.correct{border-color:var(--ok);background:var(--sci-soft)}
+.opt.correct .key{background:var(--ok);color:#fff}
+.opt.wrong{border-color:var(--no);background:#fdecea}
+.opt.wrong .key{background:var(--no);color:#fff}
+.explain{margin-top:14px;font-size:14.5px;background:var(--soft);border-left:3px solid var(--sci);
+  border-radius:0 10px 10px 0;padding:11px 14px;color:#34465f}
+.explain b{color:var(--sci-d)}
+.qnav{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.btn{border:0;border-radius:11px;padding:12px 22px;font-weight:700;font-size:14.5px;cursor:pointer;transition:.15s}
+.btn.primary{background:var(--sci);color:#fff}
+.btn.primary:hover{background:var(--sci-d)}
+.btn.ghost{background:#e4eaf1;color:var(--ink)}
+.btn.ghost:hover{background:#d8e0ea}
+.btn:disabled{opacity:.45;cursor:default}
+.result{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:30px;text-align:center;box-shadow:var(--shadow)}
+.result .big{font-family:"Baloo 2";font-weight:800;font-size:52px;color:var(--sci-d);line-height:1}
+.result h3{font-size:24px;font-weight:700;margin:8px 0 4px}
+.result p{color:var(--muted);margin:0 0 18px}
+
+.placeholder{background:var(--panel);border:1px dashed var(--line);border-radius:14px;padding:40px;text-align:center;color:var(--muted)}
+.placeholder b{color:var(--ink);font-family:"Baloo 2";font-size:20px;display:block;margin-bottom:6px}
+
+footer{border-top:1px solid var(--line);padding:22px 0;color:var(--muted);font-size:12.5px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+
+:focus-visible{outline:3px solid #9ad9bf;outline-offset:2px;border-radius:8px}
+@media(max-width:560px){
+  .def{grid-template-columns:1fr;gap:2px}
+  .hero h1{font-size:30px}
+  .tabs button{padding:9px 16px}
+}
 </style>
-
-<div class="wrap">
-  <div class="topbar">
-    <div class="brand">
-      <span class="flask">🧪</span>
-      <div>
-        <h1>Grade 5 Science Lab</h1>
-        <p>Flip · Learn · Quiz · Discover</p>
-      </div>
-    </div>
-    <div class="jar" title="Chapters you've mastered (score 80%+ on a quiz)">
-      <span>🏆 <b id="jarCount">0</b>/8 mastered</span>
-      <span class="dots" id="jarDots"></span>
-    </div>
+</head>
+<body>
+<header class="app">
+  <div class="wrap">
+    <button class="brand" id="home" aria-label="Go to home">
+      <span class="logo">O</span>
+      <span><b>Olympiad Revision Hub</b><span>Notes &amp; quizzes, chapter by chapter</span></span>
+    </button>
+    <nav class="crumbs" id="crumbs" aria-label="Breadcrumb"></nav>
   </div>
-
-  <!-- HOME -->
-  <section id="home" class="view on">
-    <p class="lead">Eight chapters of discovery. Tap a card to open it, flip the <b>revision cards</b> to learn the big ideas, then take the <b>quiz</b> to earn your mastery star. 🌟</p>
-    <div class="grid" id="grid"></div>
-    <div class="foot">Built from your Class 5 Science Prep-Guide & Workbook (MTG, 2026–27).</div>
-  </section>
-
-  <!-- CHAPTER -->
-  <section id="chapter" class="view">
-    <button class="back" onclick="goHome()">← All chapters</button>
-    <div class="chead">
-      <span class="big" id="cBig">🦁</span>
-      <div>
-        <h2 id="cName">Animals</h2>
-        <div class="sub" id="cSub">Chapter 1</div>
-      </div>
-    </div>
-    <div class="tabs">
-      <button class="tab active" id="tabCards" onclick="showTab('cards')">📇 Revision Cards</button>
-      <button class="tab" id="tabQuiz" onclick="showTab('quiz')">✏️ Quiz</button>
-    </div>
-
-    <div id="cardsPane">
-      <div class="deckhint">Tap any card to flip it over.</div>
-      <div class="deck" id="deck"></div>
-    </div>
-
-    <div id="quizPane" class="hidden">
-      <div class="quiz" id="quizLive">
-        <div class="qbarwrap"><div class="qbar" id="qbar"></div></div>
-        <div class="qcount"><span id="qnow">Question 1</span><span id="qscore">Score 0</span></div>
-        <div class="qcard">
-          <p class="qtext" id="qtext"></p>
-          <div class="opts" id="opts"></div>
-          <div class="explain" id="explain"></div>
-          <div class="qfoot"><button class="next" id="nextBtn" onclick="nextQ()">Next →</button></div>
-        </div>
-      </div>
-      <div class="result hidden" id="result"></div>
-    </div>
-  </section>
-</div>
+</header>
+<main><div class="wrap" id="view"></div></main>
+<footer><div class="wrap">
+  <span>Lesson notes &amp; questions adapted from MTG Science Olympiad Prep-Guide &amp; Workbook, Class 5.</span>
+  <span>For revision &amp; practice.</span>
+</div></footer>
 
 <script>
-/* ============ CONTENT ============ */
-const CH = [
-{ id:0, name:"Animals", icon:"🦁", accent:"#E8A33D",
-  cards:[
-    {t:"Eating habits",q:"What helps you tell a carnivore from a herbivore?",a:"Teeth! Carnivores have sharp, pointed canines to tear flesh. Herbivores have flat premolars and molars to grind plants. Omnivores eat both."},
-    {t:"Body coverings",q:"Match the covering: snake, bird, fish, tortoise.",a:"Snakes & fish → scales. Birds → feathers. Tortoise → a hard shell. These coverings protect the body and stop water loss."},
-    {t:"Breathing",q:"How do fish, frogs and whales breathe?",a:"Fish breathe through gills. Frogs use lungs on land and moist skin in water. Whales are mammals — they breathe through lungs using a blowhole."},
-    {t:"Habitats",q:"What do terrestrial, aquatic, arboreal and aerial mean?",a:"Terrestrial = lives on land. Aquatic = lives in water. Arboreal = lives in trees (like monkeys). Aerial = spends life mostly in the air (like many birds)."},
-    {t:"Adaptation",q:"How does a polar bear survive the freezing Arctic?",a:"Thick fur and a fat layer keep it warm. Adaptations are special features that help an animal survive in its habitat."},
-    {t:"Mimicry & camouflage",q:"What's the difference between camouflage and mimicry?",a:"Camouflage = blending into the surroundings to hide. Mimicry = looking like something else (like a leaf insect looking like a leaf) to fool predators."},
-    {t:"Movement",q:"How do a snake, a rabbit and a fish move?",a:"A snake slithers, a rabbit hops, and a fish swims. The way an animal moves is matched to where it lives."},
-  ],
-  quiz:[
-    {q:"Carnivores tear flesh with sharp ___, while herbivores grind plants with flat ___.",o:["canines … premolars and molars","incisors … canines","molars … incisors","none of these"],c:0,e:"Pointed canines tear meat; flat premolars and molars grind leafy plants."},
-    {q:"An animal lives in burrows, has a body covered with scales, a streamlined shape, moves by slithering and breathes through lungs. What is it?",o:["Penguin","Lizard","Rat","Snake"],c:3,e:"Scales + slithering + burrows + lungs all point to a snake."},
-    {q:"Which animal breathes through gills?",o:["Frog on land","Fish","Whale","Earthworm"],c:1,e:"Fish use gills to take oxygen from water. Whales use lungs; earthworms breathe through moist skin."},
-    {q:"A leaf insect that looks exactly like a leaf is using…",o:["camouflage by colour only","mimicry to fool predators","migration","hibernation"],c:1,e:"Mimicry means looking like another object so predators don't notice you."},
-    {q:"Which of these is an arboreal animal (lives in trees)?",o:["Polar bear","Zebra","Monkey","Snake"],c:2,e:"Monkeys live in trees, so they are arboreal."},
-    {q:"Thick fur to survive cold weather is an example of…",o:["an adaptation","a disease","camouflage","migration"],c:0,e:"Adaptations are body features that help an animal survive its habitat."},
-    {q:"Birds are covered with ___, which also help them fly.",o:["scales","feathers","fur","shells"],c:1,e:"Feathers cover birds and help with flight and warmth."},
-    {q:"Whales live in water but breathe air through a…",o:["gill","blowhole","fin","scale"],c:1,e:"A whale is a mammal that comes to the surface and breathes through a blowhole."},
-  ]
-},
-{ id:1, name:"Human Body and Health", icon:"🫀", accent:"#E2604A",
-  cards:[
-    {t:"Skeleton",q:"What is the longest bone in your body?",a:"The femur (thigh bone). It is also the strongest, and helps support your body weight."},
-    {t:"Joints & connectors",q:"What do ligaments do?",a:"Ligaments join bone to bone. (Tendons attach muscle to bone.) The skeleton has 33 vertebrae in the backbone."},
-    {t:"Nervous system",q:"Which part of the brain controls thinking and memory?",a:"The cerebrum — the largest part of the brain. The medulla controls automatic actions like breathing and heartbeat."},
-    {t:"Reflex action",q:"You touch something hot and pull back instantly. Who's in charge?",a:"The spinal cord! A reflex action is super-fast and is controlled by the spinal cord, even before the brain fully reacts."},
-    {t:"Vitamins",q:"Match: night blindness, scurvy, beriberi, rickets to a missing vitamin.",a:"Vitamin A → night blindness. Vitamin C → scurvy. Vitamin B1 → beriberi. Vitamin D → rickets (weak, soft bones)."},
-    {t:"Balanced diet",q:"Why do we need roughage (fibre) and water?",a:"Roughage helps get rid of waste (digestion); water helps regulate body temperature. A balanced diet has all nutrients in the right amounts."},
-    {t:"Diseases",q:"What causes plague and ringworm?",a:"Plague is caused by a bacterium; ringworm is caused by a fungus. Communicable diseases spread from person to person."},
-  ],
-  quiz:[
-    {q:"The longest and strongest bone in the human body is the…",o:["backbone","femur (thigh bone)","skull","rib"],c:1,e:"The femur supports your weight and is the longest, strongest bone."},
-    {q:"A deficiency of Vitamin C causes…",o:["rickets","scurvy","night blindness","beriberi"],c:1,e:"Vitamin C deficiency causes scurvy (bleeding gums). Vitamin D → rickets."},
-    {q:"You touch a hot pan and jerk your hand back instantly. This is a…",o:["voluntary action by the brain","reflex action controlled by the spinal cord","signal from the eyes","slow decision"],c:1,e:"Reflex actions are controlled by the spinal cord and are very fast."},
-    {q:"Which part of the brain controls thinking, learning and memory?",o:["Cerebellum","Medulla","Cerebrum","Spinal cord"],c:2,e:"The cerebrum is the largest part and handles thinking and memory."},
-    {q:"Ligaments connect…",o:["muscle to bone","bone to bone","skin to muscle","nerves to brain"],c:1,e:"Ligaments join bone to bone; tendons join muscle to bone."},
-    {q:"A lack of Vitamin D in children can lead to…",o:["rickets (soft, weak bones)","scurvy","beriberi","night blindness"],c:0,e:"Vitamin D helps build strong bones; without it, bones grow soft (rickets)."},
-    {q:"Which statement is correct?",o:["Roughage can be replaced with fats","Water helps regulate body temperature","Vitamins give us the most energy","A balanced diet has only proteins"],c:1,e:"Water regulates temperature. Roughage helps remove waste and can't be swapped for fats."},
-    {q:"Plague is a disease caused by a…",o:["virus","bacterium","fungus","vitamin"],c:1,e:"Plague is caused by a bacterium. Ringworm is caused by a fungus."},
-  ]
-},
-{ id:2, name:"Plants", icon:"🌱", accent:"#5AA469",
-  cards:[
-    {t:"Seed parts",q:"What are the plumule, radicle and cotyledon?",a:"The plumule grows into the shoot, the radicle grows into the root, and the cotyledon stores food for the baby plant until it makes leaves."},
-    {t:"Monocot vs dicot",q:"How many cotyledons does a dicot seed have?",a:"A dicot has two cotyledons (like beans and peas). A monocot has just one (like rice and wheat)."},
-    {t:"Germination",q:"What does a seed need to germinate?",a:"Water, air and the right warmth. Water softens the seed coat and the stored food gives the embryo energy to grow."},
-    {t:"Reproduction",q:"How does Bryophyllum make new plants?",a:"By its leaves! Buds grow on the leaf edges, fall off and become new plants. This is vegetative propagation. Ferns and mushrooms reproduce by spores."},
-    {t:"Seed dispersal",q:"How are dandelion, coconut and cocklebur seeds spread?",a:"Dandelion → by wind (light, hairy). Coconut → by water (floats). Cocklebur → by animals (hooks/spines stick to fur)."},
-    {t:"Crops",q:"What's the difference between kharif and rabi crops?",a:"Kharif crops grow in the monsoon (June–Oct), e.g. rice, maize, soybean. Rabi crops grow in winter (Nov–April), e.g. wheat, gram, mustard."},
-    {t:"Farm tools",q:"What do a sickle, plough, seed drill and thresher do?",a:"Plough loosens soil, seed drill sows seeds, sickle cuts mature crops, and a thresher separates grain from stalks."},
-  ],
-  quiz:[
-    {q:"In a germinating seed, the part that grows into the root is the…",o:["plumule","radicle","cotyledon","seed coat"],c:1,e:"Radicle → root; plumule → shoot; cotyledon stores food."},
-    {q:"Bryophyllum makes new plants from its…",o:["seeds","roots","leaves","flowers"],c:2,e:"Buds on Bryophyllum leaf edges drop off and grow into new plants."},
-    {q:"Which seeds are most likely dispersed by wind?",o:["Coconut","Dandelion (light with fine hair)","Cocklebur","Pea pod"],c:1,e:"Light seeds with fluffy hairs float on the wind."},
-    {q:"A dicot seed has ___ cotyledon(s).",o:["one","two","three","none"],c:1,e:"Dicots (beans, peas) have two cotyledons; monocots have one."},
-    {q:"Which plant reproduces through spores?",o:["Mango","Mushroom/fern","Rose","Potato"],c:1,e:"Mushrooms and ferns reproduce by spores, not seeds."},
-    {q:"Crops grown in the monsoon season (June–October) are called…",o:["rabi crops","kharif crops","cash crops","winter crops"],c:1,e:"Kharif = monsoon crops (rice, maize). Rabi = winter crops (wheat)."},
-    {q:"Which tool is used to cut mature crops?",o:["Plough","Seed drill","Sickle","Thresher"],c:2,e:"A sickle cuts crops; a thresher separates grain from stalks."},
-    {q:"A seed will NOT germinate without…",o:["sunlight only","water, air and warmth","soil colour","a flower"],c:1,e:"Germination needs water, air and a suitable temperature."},
-  ]
-},
-{ id:3, name:"Natural Resources & Indian Heritage", icon:"🏛️", accent:"#C77D4A",
-  cards:[
-    {t:"Atmosphere layers",q:"Which layer of air has the ozone that protects us from UV rays?",a:"The stratosphere. Order from the ground: troposphere (weather), stratosphere (ozone), mesosphere (burns up meteors), thermosphere (reflects radio waves)."},
-    {t:"Weather layer",q:"Where do clouds form and weather happen?",a:"In the troposphere — the layer closest to Earth's surface (about the first 16 km)."},
-    {t:"Cleaning water",q:"Name ways to make water cleaner.",a:"Boiling kills germs, filtration removes insoluble bits, distillation removes dissolved (soluble) impurities, and sedimentation lets heavy particles settle down."},
-    {t:"Soil types",q:"Which soil holds water best for plants?",a:"Loamy soil is best for growing plants. Clayey soil holds the most water but drains slowly; sandy soil drains fastest."},
-    {t:"Rocks",q:"How do igneous, sedimentary and metamorphic rocks form?",a:"Igneous = from cooled magma/lava (e.g. obsidian, basalt). Sedimentary = pressed layers (e.g. sandstone, limestone). Metamorphic = heat + pressure change a rock (e.g. marble from limestone)."},
-    {t:"Indian heritage",q:"Who built the Taj Mahal, and where is Kathakali from?",a:"The Taj Mahal was built by Shah Jahan. Kathakali is a classical dance from Kerala, famous for grand costumes and makeup."},
-    {t:"Forests",q:"Why are forests important?",a:"They help regulate the water cycle and bring rainfall, give us oxygen, and are home to wildlife. The Chipko Movement protected trees by hugging them."},
-  ],
-  quiz:[
-    {q:"The ozone layer that protects us from harmful UV rays is in the…",o:["troposphere","stratosphere","mesosphere","thermosphere"],c:1,e:"The stratosphere holds the ozone layer."},
-    {q:"Most meteors burn up in which layer?",o:["Troposphere","Stratosphere","Mesosphere","Thermosphere"],c:2,e:"The mesosphere burns up meteors entering the atmosphere."},
-    {q:"Rocks formed when magma cools are called…",o:["sedimentary","igneous","metamorphic","loamy"],c:1,e:"Igneous rocks form from cooled magma or lava."},
-    {q:"Which soil is the BEST for growing most plants?",o:["Sandy soil","Clayey soil","Loamy soil","Rocky soil"],c:2,e:"Loamy soil holds the right amount of water and air for plants."},
-    {q:"Distillation is used to remove ___ impurities from water.",o:["insoluble","soluble (dissolved)","heavy sand","floating leaves"],c:1,e:"Distillation separates dissolved (soluble) impurities; filtration removes insoluble bits."},
-    {q:"The Taj Mahal was built by…",o:["Akbar","Shah Jahan","Ashoka","Qutub-ud-din Aibak"],c:1,e:"Shah Jahan built the Taj Mahal in Agra."},
-    {q:"Marble is formed from limestone by…",o:["cooling of lava","heat and pressure","wind erosion","cementing of sand"],c:1,e:"Heat and pressure change limestone into marble — a metamorphic rock."},
-    {q:"Which gas-filled layer is closest to Earth, where weather happens?",o:["Troposphere","Stratosphere","Mesosphere","Exosphere"],c:0,e:"The troposphere is the lowest layer, where clouds and weather form."},
-  ]
-},
-{ id:4, name:"Pollution and Calamities", icon:"🌪️", accent:"#3FA39B",
-  cards:[
-    {t:"Earthquakes",q:"What is the focus, and how do we measure earthquakes?",a:"The focus is the point inside the Earth where seismic waves start. Earthquakes are detected with a seismograph and measured on the Richter scale."},
-    {t:"Big waves",q:"What causes a tsunami?",a:"A tsunami is a giant wave caused by an underwater earthquake or volcanic eruption. It can cause huge damage along coasts."},
-    {t:"Storms by name",q:"Cyclone, hurricane and typhoon — what's the link?",a:"They're all rotating storms with strong winds, just called different names in different regions (cyclone in the Indian Ocean, hurricane in the Americas, typhoon in Japan)."},
-    {t:"Waste",q:"Which wastes are biodegradable vs non-biodegradable?",a:"Biodegradable (rot naturally): cotton, banana peels, paper. Non-biodegradable (don't rot easily): plastic bottles, metal cans."},
-    {t:"Greenhouse & ozone",q:"What's the difference between greenhouse gases and the ozone hole?",a:"Greenhouse gases (like CO₂) trap heat and cause global warming. The ozone hole is caused by CFCs letting harmful UV rays through."},
-    {t:"Protect the planet",q:"What did the Montreal and Kyoto Protocols do?",a:"The Montreal Protocol (1987) reduced CFCs to protect the ozone layer. The Kyoto Protocol (1997) aimed to cut greenhouse gases."},
-    {t:"Saving soil",q:"How can a hillside farmer stop soil from washing away?",a:"Terrace farming — cutting flat steps into the hill slows water and holds the soil. Tree planting (afforestation) also helps."},
-  ],
-  quiz:[
-    {q:"An earthquake is measured on the…",o:["thermometer scale","Richter scale","pH scale","speed scale"],c:1,e:"The Richter scale measures an earthquake's strength; a seismograph detects it."},
-    {q:"A giant wave caused by an underwater earthquake is a…",o:["cyclone","tsunami","avalanche","drought"],c:1,e:"Tsunamis are huge waves triggered by undersea earthquakes or eruptions."},
-    {q:"Which of these is NON-biodegradable?",o:["Cotton T-shirt","Banana peel","Plastic bottle","Paper"],c:2,e:"Plastic and metal don't decompose easily — they are non-biodegradable."},
-    {q:"The Montreal Protocol (1987) was signed to reduce…",o:["greenhouse gases","CFCs that harm the ozone layer","plastic waste","noise pollution"],c:1,e:"Montreal Protocol → cut CFCs to save the ozone layer. Kyoto (1997) → greenhouse gases."},
-    {q:"A rotating storm is called a cyclone in India and a ___ in Japan.",o:["tornado","typhoon","tsunami","blizzard"],c:1,e:"Same storm, different name: cyclone, hurricane and typhoon."},
-    {q:"A rapid flow of snow down a mountain slope is an…",o:["avalanche","earthquake","cyclone","eruption"],c:0,e:"An avalanche is fast-moving snow rushing down a slope."},
-    {q:"The point inside the Earth where an earthquake's waves begin is the…",o:["epicentre","focus","crust top","Richter point"],c:1,e:"The focus is underground where waves start; the epicentre is the point above it on the surface."},
-    {q:"A good way to stop soil erosion on a hillside is…",o:["building tall walls","terrace farming","cutting more trees","adding plastic"],c:1,e:"Terrace farming creates flat steps that slow water and hold soil."},
-  ]
-},
-{ id:5, name:"Earth and Universe", icon:"🪐", accent:"#5C6BC0",
-  cards:[
-    {t:"Hottest planet",q:"Mercury is closest to the Sun — so is it the hottest?",a:"No! Venus is the hottest planet, because its thick carbon-dioxide atmosphere traps heat like a blanket."},
-    {t:"Day & seasons",q:"What causes day-and-night, and what causes seasons?",a:"Earth's rotation (spinning on its axis) causes day and night. Earth's revolution (orbiting the Sun) plus its tilt causes the seasons."},
-    {t:"Planet clues",q:"Which planet is the 'red planet', and which has prominent rings?",a:"Mars is the red planet (reddish soil). Saturn has the most prominent rings. Jupiter has the largest number of moons."},
-    {t:"Eclipses",q:"What's the difference between a solar and a lunar eclipse?",a:"Solar eclipse: the Moon comes between the Earth and Sun. Lunar eclipse: the Earth comes between the Sun and Moon, casting a shadow on the Moon."},
-    {t:"Moon phases",q:"After a Full Moon, is the Moon waxing or waning?",a:"Waning — the lit part shrinks until the New Moon (not visible). The full cycle of phases takes about 28 days."},
-    {t:"Constellations",q:"Which constellation is the 'bear' and which is the 'hunter'?",a:"Ursa Major (the Great Bear) and Orion (the Hunter) are famous constellations — patterns of stars in the sky."},
-    {t:"The Sun",q:"How does the Sun make its energy and light?",a:"By nuclear fusion in its core. The photosphere is the bright surface layer that gives off the light we see."},
-  ],
-  quiz:[
-    {q:"The hottest planet in our Solar System is…",o:["Mercury","Venus","Mars","Jupiter"],c:1,e:"Venus's thick CO₂ atmosphere traps heat, making it hotter than Mercury."},
-    {q:"Day and night are caused by the Earth's…",o:["revolution around the Sun","rotation on its axis","tilt only","distance from the Moon"],c:1,e:"Spinning on its axis (rotation) gives us day and night."},
-    {q:"Which planet is known as the 'red planet'?",o:["Saturn","Venus","Mars","Neptune"],c:2,e:"Mars looks red because of its reddish, iron-rich soil."},
-    {q:"During a SOLAR eclipse, which body comes in the middle?",o:["The Earth, between Sun and Moon","The Moon, between Earth and Sun","The Sun, between Earth and Moon","A comet"],c:1,e:"Solar eclipse: the Moon blocks the Sun from Earth."},
-    {q:"After a Full Moon, the lit part of the Moon…",o:["grows (waxing)","shrinks (waning)","stays the same","disappears instantly"],c:1,e:"It wanes (shrinks) toward the New Moon over about 28 days."},
-    {q:"The Sun produces energy by…",o:["burning wood","nuclear fusion","reflecting light","spinning fast"],c:1,e:"Nuclear fusion in the Sun's core releases its energy."},
-    {q:"Which planet has the largest number of moons?",o:["Earth","Mars","Jupiter","Mercury"],c:2,e:"Jupiter has the most moons of all the planets."},
-    {q:"Ursa Major and Orion are examples of…",o:["planets","constellations (star patterns)","galaxies","comets"],c:1,e:"Constellations are patterns of stars — Ursa Major is the bear, Orion the hunter."},
-  ]
-},
-{ id:6, name:"Matter and Materials", icon:"🧪", accent:"#8E6CC0",
-  cards:[
-    {t:"States of matter",q:"How are particles arranged in a solid, liquid and gas?",a:"Solid: particles packed tightly (fixed shape). Liquid: a little loose (takes the container's shape). Gas: spread far apart (fills all the space)."},
-    {t:"Heating & cooling",q:"What happens to most materials when heated?",a:"They expand (take up more space). That's why bridges and railway tracks have small gaps. Cooling makes them contract."},
-    {t:"Water is special",q:"What unusual thing does water do when it freezes?",a:"Water expands when it freezes into ice, so ice takes up more space than liquid water. That's why a full bottle can crack in the freezer!"},
-    {t:"Sublimation",q:"What is sublimation?",a:"When a solid turns straight into a gas without becoming a liquid first (solid → gas)."},
-    {t:"Solutions",q:"What do solute, solvent, miscible and immiscible mean?",a:"In a solution the solute dissolves in the solvent. Miscible liquids mix fully (water + juice); immiscible liquids don't (oil + water)."},
-    {t:"Material properties",q:"Which materials are lustrous and conduct electricity?",a:"Metals like copper, aluminium and iron are shiny (lustrous) and conduct electricity and heat. Copper is non-magnetic, though!"},
-    {t:"Physical vs chemical",q:"Is melting ice a physical or chemical change?",a:"Physical — no new substance forms (you can refreeze it). Burning paper or rusting iron are chemical changes (new substances form)."},
-  ],
-  quiz:[
-    {q:"In which state are the particles packed most tightly?",o:["Solid","Liquid","Gas","All the same"],c:0,e:"Solids have tightly packed particles and a fixed shape."},
-    {q:"When most materials are heated, they…",o:["contract","expand","disappear","turn to liquid instantly"],c:1,e:"Heating makes materials expand; that's why tracks have gaps."},
-    {q:"A solid changing directly into a gas is called…",o:["melting","condensation","sublimation","freezing"],c:2,e:"Sublimation skips the liquid stage: solid → gas."},
-    {q:"Burning paper is a ___ change, because a new substance forms.",o:["physical","chemical","reversible","temporary"],c:1,e:"A chemical change makes a new substance and usually can't be undone."},
-    {q:"Oil and water do not mix. They are…",o:["miscible","immiscible","soluble","gases"],c:1,e:"Immiscible liquids form separate layers instead of mixing."},
-    {q:"Which is true about water?",o:["It contracts when it freezes","It expands when it freezes","It never changes size","It only expands when heated"],c:1,e:"Water expands on freezing, so ice can crack a full bottle."},
-    {q:"Which material is lustrous AND conducts electricity?",o:["Rubber","Wood","Copper wire","Plastic"],c:2,e:"Metals like copper are shiny and conduct electricity."},
-    {q:"In a sugar-water solution, the sugar is the ___ and water is the ___.",o:["solvent … solute","solute … solvent","gas … liquid","liquid … solid"],c:1,e:"The thing that dissolves is the solute; what it dissolves in is the solvent."},
-  ]
-},
-{ id:7, name:"Force and Energy", icon:"⚡", accent:"#EF8A3C",
-  cards:[
-    {t:"Friction",q:"What is friction and which way does it act?",a:"Friction is a contact force that opposes (works against) motion between two surfaces. Rough surfaces have more friction than smooth ones."},
-    {t:"Contact vs non-contact",q:"Give an example of a non-contact force.",a:"Magnetic and gravitational forces act from a distance (non-contact). Friction and muscular force need touch (contact)."},
-    {t:"Levers",q:"What are the three classes of levers?",a:"Class 1: fulcrum in the middle (see-saw, scissors). Class 2: load in the middle (wheelbarrow, bottle opener). Class 3: effort in the middle (fishing rod, tongs)."},
-    {t:"Pulleys",q:"What does a fixed pulley do vs a movable pulley?",a:"A fixed pulley changes the direction of the force (pull down to lift up) but doesn't reduce effort. A movable pulley reduces the effort needed."},
-    {t:"Inclined plane",q:"Why is a long, gentle ramp easier than a short, steep one?",a:"An inclined plane reduces the effort needed to lift a load, but you push over a longer distance. A longer, gentler ramp needs the least effort."},
-    {t:"Kinetic vs potential",q:"What's the difference between kinetic and potential energy?",a:"Kinetic energy is energy of motion (a moving object). Potential energy is stored energy due to position (an object lifted up high)."},
-    {t:"Energy changes",q:"What energy change happens as a roller coaster zooms downhill?",a:"Potential energy (at the top) changes into kinetic energy (as it speeds down). Energy can change form but is not lost."},
-  ],
-  quiz:[
-    {q:"The force that opposes motion between two surfaces in contact is…",o:["gravitational force","frictional force","magnetic force","elastic force"],c:1,e:"Friction is a contact force that works against movement."},
-    {q:"A fixed pulley mainly…",o:["reduces the effort","changes the direction of the force","removes gravity","adds weight"],c:1,e:"A fixed pulley changes direction (pull down to lift up) but doesn't reduce effort."},
-    {q:"A see-saw and scissors are examples of a ___ lever.",o:["first class","second class","third class","fourth class"],c:0,e:"Class 1 levers have the fulcrum in the middle."},
-    {q:"Which is a NON-contact force?",o:["Friction","Muscular force","Magnetic force","A push"],c:2,e:"Magnetic (and gravitational) forces act from a distance — no touch needed."},
-    {q:"Energy of a moving object is called…",o:["potential energy","kinetic energy","chemical energy","stored energy"],c:1,e:"Kinetic energy is the energy of motion."},
-    {q:"To lift a heavy box with the LEAST effort, choose…",o:["a short, steep ramp","a long, gentle ramp","no ramp at all","a ramp with steps"],c:1,e:"A longer, gentler inclined plane needs the least effort."},
-    {q:"As a roller coaster races downhill, its energy changes from…",o:["kinetic to potential","potential to kinetic","chemical to light","sound to heat"],c:1,e:"Stored potential energy at the top becomes kinetic energy as it speeds down."},
-    {q:"A bottle opener is an example of a ___ lever (load in the middle).",o:["first class","second class","third class","not a lever"],c:1,e:"Class 2 levers (wheelbarrow, bottle opener) have the load between fulcrum and effort."},
-  ]
-},
-];
+/* =================================================================
+   DATA SCHEMA
+   subject:  { id, name, grade, icon, color(hex), soft(hex), status:"active"|"soon", blurb, chapters:[...] }
+   chapter:  { n, title, topics:[..], notes:[section], quiz:[question] }
+   section:  { h, intro?, points?:[..], defs?:[[term,def]..], table?:{cols:[],rows:[[]]}, bite?:str }
+   question: { q, options:[a,b,c,d], answer:<0-3>, explain }
+   To extend: add chapters to "chapters", or set a subject's status to "active" and fill its chapters.
+   ================================================================= */
+const DATA={subjects:[
+{
+ id:"science",name:"Science Olympiad Prep",grade:"Class 5",icon:"\uD83D\uDD2C",
+ color:"#1f9e6a",soft:"#e7f5ee",status:"active",
+ blurb:"All 8 chapters with detailed revision notes and a quiz for each.",
+ chapters:[
 
-/* ============ STATE ============ */
-let mastered = new Array(8).fill(false);
-let cur = 0, qIndex = 0, qScore = 0, answered = false;
+ /* ---------------- CHAPTER 1 ---------------- */
+ {n:1,title:"Animals",
+  topics:["Habitats","Body coverings","Eating habits","Breathing","Movements","Adaptations"],
+  notes:[
+   {h:"Habitats of animals",intro:"A habitat is the place where an animal lives, grows and reproduces. Animals have adapted features to survive in their habitat.",
+    defs:[
+     ["Terrestrial","Live on land \u2013 camel, elephant, lion, snake (in burrows)."],
+     ["Arboreal","Live on trees \u2013 monkey, squirrel, koala, sloth."],
+     ["Aquatic","Live in water \u2013 fish, whale, dolphin, octopus."],
+     ["Aerial","Stay mostly in air \u2013 birds, bats."],
+     ["Amphibians","Live both on land and in water \u2013 frog, toad."]]},
+   {h:"Body coverings",intro:"Body covering keeps the animal warm and protects it from predators.",
+    defs:[
+     ["Scales","Fish, reptiles, bird legs. Fish scales come from the deeper dermal layer; reptile/bird scales from the epidermis."],
+     ["Shell","Hard covering on snail, tortoise, armadillo."],
+     ["Feathers","Cover birds; keep them warm and help flight."],
+     ["Spines","Needle-like outgrowths on hedgehog, porcupine, spiny anteater."],
+     ["Cuticle","Hard covering on insects like butterfly, grasshopper, beetle."]],
+    bite:"Skin of crocodile, shell of tortoise and bony armour of armadillo are made of scutes \u2013 bony external plates from the deeper layer of skin, similar in function to scales."},
+   {h:"Eating habits (and teeth)",
+    defs:[
+     ["Herbivores","Eat only plants. Sharp incisors to cut; flat premolars & molars to grind (cow, goat, zebra)."],
+     ["Carnivores","Eat flesh. Sharp pointed canines to tear; strong premolars & molars (lion, tiger)."],
+     ["Omnivores","Eat both plants & animals. Sharp & flat incisors plus flat broad molars (bear, humans)."],
+     ["Scavengers","Feed on dead animals (vulture, hyena)."],
+     ["Rodents","Gnaw their food; sharp strong front teeth (rat, rabbit, squirrel)."]]},
+   {h:"Breathing methods",intro:"Oxygen burns food in the body to release energy. Different animals breathe in different ways.",
+    defs:[
+     ["Through skin","Earthworm (moist skin); Amoeba & Paramecium (body surface); frog (moist skin in water)."],
+     ["Through spiracles","Insects \u2013 air enters spiracles and passes through tubes called tracheae."],
+     ["Through gills","Fish, tadpole, prawn \u2013 gills take in oxygen dissolved in water."],
+     ["Through lungs","Reptiles, birds, mammals. Whales & dolphins breathe air through blowholes."]]},
+   {h:"Movements in animals",intro:"The ability to move from place to place is called locomotion.",
+    points:["Walk \u2013 humans (on hindlimbs), horse, deer, leopard (on all four).",
+     "Hop / jump \u2013 rabbit, kangaroo (hindlimbs).","Crawl \u2013 lizard, crocodile.","Slither \u2013 snake.",
+     "Swim \u2013 fish (fins), duck (webbed feet), sea turtle & penguin (flippers).",
+     "Fly \u2013 birds & bats (modified forelimbs); insects (forewings & hindwings)."],
+    bite:"Insect wings have no bones; bird and bat wings do. Insect wings are covered with scales, bat wings with bare skin, bird wings with feathers."},
+   {h:"Adaptations",intro:"Adaptation is the adjustment of an animal to its environment to survive better.",
+    defs:[
+     ["Migration","Long-distance movement to escape unfavourable conditions. Arctic tern (Arctic\u2194Antarctic, ~71,000 km \u2013 longest migration); Siberian cranes, salmon, eels, monarch butterfly, locusts."],
+     ["Camouflage","Blending with surroundings to avoid prey/predator \u2013 chameleon, polar bear (white fur), stonefish."],
+     ["Mimicry","Resembling another organism or object \u2013 viceroy butterfly mimics monarch; leaf insect mimics leaves."]]}],
+  quiz:[
+   {q:"Animals that live on trees are called",options:["Terrestrial","Arboreal","Aquatic","Aerial"],answer:1,explain:"Arboreal animals such as the monkey, sloth and koala live on trees."},
+   {q:"Which teeth do carnivores use to tear flesh?",options:["Incisors","Canines","Premolars","Molars"],answer:1,explain:"Carnivores have sharp pointed canines for tearing flesh."},
+   {q:"Earthworms breathe through their",options:["Lungs","Gills","Moist skin","Spiracles"],answer:2,explain:"Earthworms breathe through their moist skin."},
+   {q:"The longest migration of any animal is made by the",options:["Salmon","Locust","Arctic tern","Monarch butterfly"],answer:2,explain:"The Arctic tern travels about 71,000 km between the Arctic and Antarctic each year."},
+   {q:"Bodies of insects like the butterfly and beetle are covered by",options:["Scales","A shell","A cuticle","Feathers"],answer:2,explain:"Insects have a hard outer covering called a cuticle."},
+   {q:"Whales and dolphins breathe through",options:["Gills","Blowholes","Moist skin","Spiracles"],answer:1,explain:"Whales and dolphins are mammals; they come to the surface and breathe air through blowholes."},
+   {q:"An animal that blends with its surroundings to avoid predators shows",options:["Migration","Mimicry","Camouflage","Hibernation"],answer:2,explain:"Camouflage is blending with the surroundings, like a chameleon or polar bear."},
+   {q:"Rabbits, rats and squirrels belong to the group of",options:["Reptiles","Rodents","Amphibians","Carnivores"],answer:1,explain:"They gnaw their food and have sharp front teeth \u2013 they are rodents (and mammals)."},
+   {q:"The bony external plates on a crocodile's skin and a tortoise's shell are called",options:["Scales","Scutes","Spines","Feathers"],answer:1,explain:"They are scutes \u2013 bony plates formed from the deeper layer of skin."},
+   {q:"Frogs breathe through their ____ when they are in water.",options:["Lungs","Gills","Moist skin","Spiracles"],answer:2,explain:"In water frogs breathe through their moist skin; on land they use lungs."}]
+ },
 
-/* ============ HOME ============ */
+ /* ---------------- CHAPTER 2 ---------------- */
+ {n:2,title:"Human Body and Health",
+  topics:["Skeletal & muscular system","Nervous system","Food & nutrients","Diseases","Safety & first aid"],
+  notes:[
+   {h:"Organisation of the body",intro:"Cell \u2192 Tissue \u2192 Organ \u2192 Organ system \u2192 Organism. The body has digestive, skeletal, muscular, nervous, circulatory and respiratory systems.",
+    points:["A new-born baby has about 300 bones; these fuse to 206 bones in an adult.",
+     "Bones are made of calcium and phosphorus; bone marrow inside makes blood cells.",
+     "The skeleton = skull, backbone, ribcage, two pairs of limbs and two pairs of girdles."]},
+   {h:"The skeleton",
+    defs:[
+     ["Skull","Protects the brain; 22 bones (8 cranial + 14 facial). All fixed except the movable lower jaw."],
+     ["Backbone","33 vertebrae forming the vertebral column; protects the spinal cord. First bone = atlas, last = tail bone."],
+     ["Ribcage","12 pairs of ribs. First 7 pairs = true ribs (joined to breast bone/sternum); next 3 = false ribs; last 2 = floating ribs (joined only to the backbone)."],
+     ["Limbs","Forelimbs (arms) & hindlimbs (legs); 30 bones each. Humerus = longest bone in the arm; femur = longest & strongest bone in the body."],
+     ["Girdles","Pectoral (shoulder) girdle and pelvic (hip) girdle."]],
+    bite:"Bones are very hard, but the hardest substance in the body is the enamel coating on our teeth."},
+   {h:"Joints",intro:"A joint is where two or more bones meet. Skull joints are immovable. Four movable joints:",
+    defs:[
+     ["Hinge joint","Moves in one direction \u2013 knee, elbow, fingers, toes."],
+     ["Ball and socket","Moves in all directions \u2013 shoulder and hip."],
+     ["Pivot joint","Between atlas and axis; lets the head turn sideways."],
+     ["Gliding joint","Back-and-forth and side-to-side \u2013 wrist and ankle."]],
+    bite:"A ligament joins bone to bone (holds joints together). A tendon attaches muscle to bone."},
+   {h:"Muscular system",intro:"Over 600 muscles, attached to bones by tendons.",
+    defs:[
+     ["Skeletal (voluntary)","Under our control; striped; in arms, legs, hands, feet."],
+     ["Smooth (involuntary)","Not under our control; no stripes; e.g. in the stomach."],
+     ["Cardiac","Heart muscle; involuntary but striped; works all our life without tiring."]],
+    points:["Muscles can only pull, not push, so they work in pairs (biceps & triceps bend and straighten the arm)."]},
+   {h:"Nervous system",intro:"Made of the brain, spinal cord and nerves; lets us think, learn and feel.",
+    defs:[
+     ["Cerebrum","Largest part of the brain; thinking, learning, memory and senses."],
+     ["Cerebellum","Balance, posture and muscle movements (the hindbrain)."],
+     ["Medulla / brain stem","Controls involuntary actions \u2013 heartbeat, breathing, blood circulation."],
+     ["Spinal cord","Connects the body to the brain; controls reflex actions."],
+     ["Reflex action","A sudden, involuntary response to a stimulus, controlled by the spinal cord (pulling your hand off a hot object)."]]},
+   {h:"Sense organs",intro:"Five sense organs connect us to the world.",
+    defs:[
+     ["Eyes (sight)","Iris controls light by changing the pupil; lens focuses light onto the retina; retina sends the image to the brain via the optic nerve. Cornea absorbs harmful UV."],
+     ["Ears (hearing)","Outer ear collects sound; middle ear has 3 ossicles that amplify it ~10\u00d7; inner ear sends sound to the brain via the auditory nerve."],
+     ["Nose (smell)","Receptors send messages via the olfactory nerve."],
+     ["Tongue (taste)","Taste buds detect sweet, salty, sour and bitter."],
+     ["Skin (touch)","Largest organ; senses touch, heat, pain and pressure; removes sweat."]]},
+   {h:"Food and nutrients",
+    defs:[
+     ["Carbohydrates","Energy-giving (rice, potato, bread, sugar). Broken down to glucose."],
+     ["Fats","Energy-giving & stored; keep us warm (butter, ghee, oil). Excess \u2192 obesity."],
+     ["Proteins","Body-building; build & repair tissues (eggs, fish, milk, pulses, meat)."],
+     ["Roughage","Fibre that helps remove waste (vegetables, fruits, cereal coverings)."],
+     ["Water","Forms part of blood; removes waste as urine & sweat (6\u20138 glasses a day)."]],
+    points:["A balanced diet has all nutrients in the right amounts, with roughage and water."]},
+   {h:"Vitamins, minerals & deficiency diseases",
+    table:{cols:["Nutrient","Good sources","Deficiency disease"],rows:[
+     ["Vitamin A","Carrot, mango, papaya, milk, egg yolk","Night blindness"],
+     ["Vitamin B1","Cereals, milk, peas, meat","Beriberi"],
+     ["Vitamin C","Citrus fruits, tomato, gooseberry","Scurvy"],
+     ["Vitamin D","Fish, eggs, sunshine","Rickets"],
+     ["Iodine","Iodised salt","Goitre"],
+     ["Calcium","Milk, green leafy vegetables","Weak bones (osteoporosis)"],
+     ["Iron","Apples, dates, green leafy vegetables","Anaemia"]]}},
+   {h:"Diseases & prevention",
+    defs:[
+     ["Non-communicable","Do not spread \u2013 diabetes, arthritis, and deficiency diseases."],
+     ["Communicable","Spread from a sick person; caused by germs."]],
+    table:{cols:["Germ","Diseases"],rows:[
+     ["Viruses","Common cold, polio, chicken pox, measles, dengue"],
+     ["Bacteria","Plague, tuberculosis, typhoid, pneumonia, whooping cough"],
+     ["Protozoa","Malaria, amoebic dysentery"],
+     ["Fungus","Ringworm"]]},
+    points:["Spread by air, contaminated food/water, contact and insect bites.",
+     "Prevention: clean surroundings, wash hands, boil water, pasteurise milk, vaccination.",
+     "First aid is the first medical help before a doctor arrives \u2013 to stop the condition worsening and save lives."]}],
+  quiz:[
+   {q:"An adult human skeleton has about how many bones?",options:["206","300","33","12"],answer:0,explain:"A baby has ~300 bones, which fuse to 206 in an adult."},
+   {q:"The longest and strongest bone in the body is the",options:["Humerus","Femur","Backbone","Skull"],answer:1,explain:"The femur (thigh bone) is the longest and strongest bone."},
+   {q:"Reflex actions are controlled by the",options:["Brain","Heart","Spinal cord","Lungs"],answer:2,explain:"Reflexes are sudden, involuntary responses controlled by the spinal cord."},
+   {q:"The largest part of the brain is the",options:["Cerebellum","Medulla","Cerebrum","Pons"],answer:2,explain:"The cerebrum controls thinking, learning and memory."},
+   {q:"Deficiency of Vitamin C causes",options:["Rickets","Scurvy","Beriberi","Night blindness"],answer:1,explain:"Lack of Vitamin C causes scurvy (bleeding gums, swollen joints)."},
+   {q:"Goitre is caused by the deficiency of",options:["Calcium","Iron","Iodine","Vitamin A"],answer:2,explain:"Iodine deficiency causes goitre (swelling of the neck)."},
+   {q:"The hardest substance in the human body is",options:["Bone","Enamel","Cartilage","Nail"],answer:1,explain:"Tooth enamel is harder than bone."},
+   {q:"Muscles we cannot control, such as those in the stomach, are",options:["Skeletal muscles","Voluntary muscles","Smooth (involuntary) muscles","Striped muscles"],answer:2,explain:"Smooth muscles are involuntary and have no stripes."},
+   {q:"The largest organ of the human body is the",options:["Liver","Skin","Brain","Heart"],answer:1,explain:"The skin is the largest organ."},
+   {q:"Malaria is caused by a",options:["Virus","Bacterium","Protozoan","Fungus"],answer:2,explain:"Malaria is caused by a protozoan carried by the female Anopheles mosquito."},
+   {q:"The last two pairs of ribs, joined only to the backbone, are called",options:["True ribs","False ribs","Floating ribs","Breast ribs"],answer:2,explain:"They are free in front and are called floating ribs."},
+   {q:"Which joint allows movement in all directions (shoulder and hip)?",options:["Hinge","Pivot","Ball and socket","Gliding"],answer:2,explain:"The ball-and-socket joint allows movement in all directions."}]
+ },
+
+ /* ---------------- CHAPTER 3 ---------------- */
+ {n:3,title:"Plants",
+  topics:["Parts of a plant","Reproduction","Seed dispersal","Germination","Crops & agriculture"],
+  notes:[
+   {h:"Parts of a plant",
+    defs:[
+     ["Root","Holds the plant firmly, absorbs water & minerals, stores food. Tap root (one main root \u2013 pea, carrot) or fibrous root (bushy bunch \u2013 grass, rice)."],
+     ["Stem","Carries water up and food down; bears leaves, flowers, fruits. Modified stems store food (potato, ginger)."],
+     ["Leaf","The 'kitchen of the plant' \u2013 makes food using water, carbon dioxide, sunlight and chlorophyll."],
+     ["Flower","Colourful; helps in reproduction."],
+     ["Fruit & seeds","Fruit forms from the flower; seeds inside grow into new plants."]],
+    bite:"Tiny holes called stomata on the leaf surface let air enter and leave the leaf."},
+   {h:"Reproduction in plants",intro:"New plants grow from seeds, spores or vegetative parts.",
+    defs:[
+     ["By seeds","Most flowering plants."],
+     ["By spores","Ferns and mosses."],
+     ["By stem","Potato, ginger, onion; rose & Hibiscus (stem cuttings)."],
+     ["By roots","Sweet potato, Dahlia, carrot."],
+     ["By leaves","Bryophyllum, Begonia (buds on leaf edges)."]]},
+   {h:"Parts of a seed & germination",
+    points:["A seed has a seed coat (protects it), one or two cotyledons (store food) and an embryo (baby plant).",
+     "Monocots have 1 cotyledon (rice, wheat); dicots have 2 (bean, pea).",
+     "Germination needs air, water and warmth.",
+     "The radicle grows downward into the root system; the plumule grows upward into the shoot system."]},
+   {h:"Seed dispersal",intro:"Scattering seeds away from the parent so they get space and resources.",
+    defs:[
+     ["By wind","Light seeds with wings or hair \u2013 cotton, dandelion, Hiptage."],
+     ["By water","Floating seeds \u2013 coconut (fibrous coat), lotus (spongy part)."],
+     ["By animals","Hooked/spiny seeds stick to fur \u2013 cocklebur, Xanthium; eaten fruits."],
+     ["By explosion","Ripe dry fruits burst open \u2013 balsam, pea, Geranium."]]},
+   {h:"Crops & agriculture",
+    defs:[
+     ["Rabi crops","Grown in winter (Nov\u2013April) \u2013 wheat, mustard, gram, peas."],
+     ["Kharif crops","Grown in the monsoon (June\u2013Oct) \u2013 rice, maize, soybean, groundnut."]],
+    points:["Stages: ploughing \u2192 adding manure/fertiliser \u2192 sowing \u2192 irrigation \u2192 protecting crops \u2192 harvesting.",
+     "Threshing separates grain from stalks; winnowing separates grain from chaff using the wind.",
+     "A seed drill sows seeds; a sickle/harvester cuts crops."]}],
+  quiz:[
+   {q:"The 'kitchen of the plant' is the",options:["Root","Stem","Leaf","Flower"],answer:2,explain:"Leaves make food, so they are called the kitchen of the plant."},
+   {q:"The tiny holes on a leaf's surface for gas exchange are called",options:["Stomata","Cotyledons","Veins","Roots"],answer:0,explain:"Air enters and leaves through the stomata."},
+   {q:"Which plant reproduces through its leaves?",options:["Potato","Bryophyllum","Rose","Onion"],answer:1,explain:"Bryophyllum grows new plants from buds on its leaf edges."},
+   {q:"Seeds with wings or hair are usually dispersed by",options:["Water","Animals","Wind","Explosion"],answer:2,explain:"Light seeds with wings/hair (cotton, dandelion) are carried by wind."},
+   {q:"A seed with two cotyledons is called a",options:["Monocot","Dicot","Spore","Bulb"],answer:1,explain:"Dicot seeds (bean, pea) have two cotyledons."},
+   {q:"During germination, the part that grows downward to form roots is the",options:["Plumule","Radicle","Cotyledon","Seed coat"],answer:1,explain:"The radicle grows down into the root system; the plumule grows up."},
+   {q:"Crops grown in the winter season (Nov\u2013April) are called",options:["Kharif crops","Rabi crops","Plantation crops","Fibre crops"],answer:1,explain:"Rabi crops (wheat, mustard) grow in winter."},
+   {q:"Separating grain from the chaff using wind is called",options:["Threshing","Winnowing","Ploughing","Harvesting"],answer:1,explain:"Winnowing uses the breeze to separate grain from chaff."},
+   {q:"Coconut seeds are dispersed mainly by",options:["Wind","Water","Animals","Explosion"],answer:1,explain:"The coconut's fibrous coat helps it float, so it is dispersed by water."},
+   {q:"Ferns reproduce through",options:["Seeds","Spores","Stems","Roots"],answer:1,explain:"Non-flowering plants like ferns reproduce through spores."}]
+ },
+
+ /* ---------------- CHAPTER 4 ---------------- */
+ {n:4,title:"Natural Resources and Indian Heritage",
+  topics:["Atmosphere","Air, water & soil","Rocks & minerals","Forests","Indian heritage"],
+  notes:[
+   {h:"Natural resources & the atmosphere",intro:"Resources from nature, not made by humans. Renewable (solar, wind) or non-renewable (fossil fuels).",
+    defs:[
+     ["Troposphere","First layer; all weather happens here (up to ~16 km)."],
+     ["Stratosphere","Has the ozone layer that absorbs harmful UV rays (~16\u201350 km)."],
+     ["Mesosphere","Burns up meteorites (~50\u201385 km)."],
+     ["Thermosphere","Satellites orbit here (~85\u2013600 km)."],
+     ["Exosphere","Outermost layer (~600 km and above)."]],
+    points:["Air is about 78% nitrogen, 21% oxygen and 1% other gases (including CO\u2082 0.04%).",
+     "Properties of air: occupies space, has weight, can be compressed, exerts pressure, needed for burning, expands on heating."]},
+   {h:"Water & its purification",
+    defs:[
+     ["Soluble impurities","Removed by evaporation or distillation."],
+     ["Insoluble impurities","Removed by sedimentation, decantation and filtration."]],
+    points:["A water treatment plant uses sedimentation, filtration and chlorination.",
+     "At home, water is purified by boiling, RO purifiers, chlorination and filtration."],
+    bite:"Water is called the 'universal solvent' because most substances dissolve in it."},
+   {h:"Soil",
+    defs:[
+     ["Sandy soil","Big air spaces; cannot hold moisture."],
+     ["Clayey soil","Small air spaces; holds moisture but forms hard lumps."],
+     ["Loamy soil","Mix of sand & clay; holds moisture and is best for plant growth."]],
+    points:["Soil layers (profile): A horizon/topsoil (fertile, has humus), B horizon/subsoil, C horizon/parent rock, bedrock.",
+     "Soil erosion (loss of topsoil) is caused by wind, water and deforestation.",
+     "Conserved by afforestation, terrace farming, embankments and plant cover."],
+    bite:"Earthworms are the farmer's friend \u2013 they loosen and aerate the soil and improve its fertility."},
+   {h:"Rocks & minerals",intro:"The Earth has crust, mantle and core. The crust is made of rocks; rocks are made of minerals.",
+    table:{cols:["Type","How it forms","Examples"],rows:[
+     ["Igneous","Magma/lava cools and hardens","Granite, basalt, pumice, obsidian"],
+     ["Sedimentary","Sediments deposited & pressed over time","Sandstone, limestone, shale, conglomerate"],
+     ["Metamorphic","Heat & pressure change other rocks","Marble (from limestone), slate (from shale), gneiss (from granite)"]]},
+    points:["Pumice is the lightest rock and floats on water. Limestone forms from sea shells & skeletons.",
+     "Minerals: metallic (iron, copper), non-metallic (quartz, mica, diamond) and energy minerals.",
+     "Energy minerals = fossil fuels: coal and petroleum (petroleum is also called black gold)."]},
+   {h:"Forests & their protection",
+    points:["Forests give wood, medicines, fresh air; bring rainfall, prevent soil erosion and give shelter to wildlife.",
+     "Deforestation increases CO\u2082, causes soil erosion and harms tribal life.",
+     "Van Mahotsav (tree-planting festival) was started by K. M. Munshi in 1950.",
+     "The Chipko Movement (1970s, Garhwal) saw villagers hug trees to stop them being cut."],
+    bite:"For the Bishnois of Rajasthan, protecting animals and plants is a religion, founded by Guru Jambheshwar."},
+   {h:"Indian heritage",
+    table:{cols:["Monument","Key facts"],rows:[
+     ["Taj Mahal","Agra, on the Yamuna; built by Shah Jahan for Mumtaz Mahal; white marble."],
+     ["Qutub Minar","Mehrauli, Delhi; 73 m tall; started by Qutub-ud-din Aibak."],
+     ["Sun Temple","Konark, Odisha; shaped like the chariot of Sun God Surya."],
+     ["Gateway of India","Mumbai; built to mark King George V's visit (1911)."]]},
+    table2:null,
+    points:["Classical dances: Bharatanatyam (Tamil Nadu), Kuchipudi (Andhra Pradesh), Odissi (Odisha), Manipuri (Manipur), Kathakali (Kerala).",
+     "Folk dances: Ghoomar (Rajasthan), Bhangra (Punjab), Garba (Gujarat).",
+     "Two classical music styles: Hindustani and Carnatic."]}],
+  quiz:[
+   {q:"The ozone layer that protects us from UV rays is in the",options:["Troposphere","Stratosphere","Mesosphere","Exosphere"],answer:1,explain:"The ozone layer lies in the stratosphere."},
+   {q:"The most abundant gas in air is",options:["Oxygen","Nitrogen","Carbon dioxide","Hydrogen"],answer:1,explain:"Air is about 78% nitrogen."},
+   {q:"Which soil is best for plant growth?",options:["Sandy","Clayey","Loamy","Rocky"],answer:2,explain:"Loamy soil holds enough moisture and is rich in nutrients."},
+   {q:"Rocks formed when magma or lava cools are called",options:["Sedimentary","Igneous","Metamorphic","Mineral"],answer:1,explain:"Igneous rocks (granite, basalt) form when magma/lava cools and hardens."},
+   {q:"The Taj Mahal was built by",options:["Akbar","Shah Jahan","Qutub-ud-din Aibak","Jai Singh II"],answer:1,explain:"Shah Jahan built it in memory of his wife Mumtaz Mahal."},
+   {q:"Marble is formed from",options:["Sandstone","Limestone","Granite","Shale"],answer:1,explain:"Marble is a metamorphic rock formed from limestone."},
+   {q:"Which fossil fuel is also called 'black gold'?",options:["Coal","Petroleum","Pumice","Natural gas"],answer:1,explain:"Petroleum (crude oil) is called black gold."},
+   {q:"The Chipko Movement was started to prevent",options:["Water pollution","Deforestation","Soil erosion","Mining"],answer:1,explain:"Villagers hugged trees to stop deforestation."},
+   {q:"The classical dance Kathakali belongs to which state?",options:["Tamil Nadu","Kerala","Odisha","Manipur"],answer:1,explain:"Kathakali is the classical dance of Kerala."},
+   {q:"Insoluble impurities can be separated from water by",options:["Evaporation","Distillation","Filtration","Boiling"],answer:2,explain:"Filtration removes insoluble impurities that do not dissolve."},
+   {q:"Earthworms are known as the",options:["Farmer's friend","Soil eater","Crop pest","Water cleaner"],answer:0,explain:"Earthworms loosen, aerate and enrich the soil."},
+   {q:"The Red Fort in Delhi is made of",options:["Marble","Red sandstone","Granite","Basalt"],answer:1,explain:"The Red Fort is built from red sandstone."}]
+ },
+
+ /* ---------------- CHAPTER 5 ---------------- */
+ {n:5,title:"Pollution and Calamities",
+  topics:["Air, water & soil pollution","Noise pollution","Global warming","Conservation","Natural calamities"],
+  notes:[
+   {h:"Pollution",intro:"Pollution is the addition of harmful substances (pollutants) to the environment. Types: air, water, soil and noise.",
+    defs:[
+     ["Air pollution","From vehicles, factories, burning of fuel & firecrackers."],
+     ["Water pollution","From sewage, factory waste, farm run-off and oil spills (causes cholera, typhoid)."],
+     ["Soil (land) pollution","From plastic, industrial & farm waste."],
+     ["Noise pollution","Excess noise from vehicles, machines, loudspeakers."]]},
+   {h:"Effects of air pollution",
+    defs:[
+     ["Acid rain","Sulphur dioxide & nitrogen dioxide mix with water vapour, then fall as acidic rain that harms plants and damages buildings."],
+     ["Ozone hole","CFC gases damage the ozone layer, letting harmful UV rays reach Earth."],
+     ["Global warming","Greenhouse gases (CO\u2082, methane) trap heat, raising Earth's temperature and melting polar ice."]],
+    bite:"Biodegradable wastes (paper, wood, food) decompose naturally; non-biodegradable wastes (plastic, metal) do not. Noise above 80 dB is hazardous."},
+   {h:"Saving the environment",
+    points:["Air: use CNG & catalytic converters, get a PUC certificate, plant green belts.",
+     "Water: build dams, treat waste water, fix leaking taps, harvest rainwater.",
+     "Soil: cover crops, terrace farming, embankments, use paper/cloth bags instead of plastic.",
+     "The Montreal Protocol (1987) was signed to reduce CFCs; the Kyoto Protocol (1997) targets greenhouse gases."]},
+   {h:"Natural calamities",
+    defs:[
+     ["Earthquake","Sudden shaking of the Earth. The point underground where it starts is the focus; the point above it on the surface is the epicentre. Measured on the Richter scale with a seismograph."],
+     ["Volcano","An opening in the crust through which magma escapes. Magma above ground is called lava. Types: active, dormant and extinct."],
+     ["Cyclone","A revolving storm over warm seas. Called a typhoon in Japan and a hurricane in southern USA."],
+     ["Tsunami","Giant sea waves caused by undersea earthquakes or volcanic eruptions."],
+     ["Drought","A long period without rain, causing crop failure and famine."]]}],
+  quiz:[
+   {q:"Acid rain is caused by gases like",options:["Oxygen and nitrogen","Sulphur dioxide and nitrogen dioxide","Carbon dioxide and water","Helium and neon"],answer:1,explain:"These gases mix with water vapour to form acids that fall as rain."},
+   {q:"The rise in Earth's temperature due to greenhouse gases is called",options:["Acid rain","Ozone hole","Global warming","Smog"],answer:2,explain:"Trapped heat from greenhouse gases causes global warming."},
+   {q:"Which of these is a biodegradable waste?",options:["Plastic bag","Metal can","Paper","Glass"],answer:2,explain:"Paper decomposes naturally, so it is biodegradable."},
+   {q:"Noise above how many decibels is hazardous?",options:["50 dB","80 dB","100 dB","120 dB"],answer:1,explain:"Noise above 80 dB is considered hazardous."},
+   {q:"The point under the ground where an earthquake begins is the",options:["Epicentre","Focus","Crater","Vent"],answer:1,explain:"It starts at the focus; the point above it is the epicentre."},
+   {q:"Earthquakes are measured on the",options:["Richter scale","Decibel scale","Celsius scale","Beaufort scale"],answer:0,explain:"A seismograph measures earthquakes on the Richter scale."},
+   {q:"A revolving storm over warm oceans is a cyclone in India and a ____ in Japan.",options:["Hurricane","Typhoon","Tornado","Tsunami"],answer:1,explain:"It is called a typhoon in Japan."},
+   {q:"Molten rock that flows out of a volcano is called",options:["Magma","Lava","Crater","Ash"],answer:1,explain:"Magma that erupts onto the surface is called lava."},
+   {q:"The Montreal Protocol (1987) was signed to reduce",options:["Carbon dioxide","CFCs","Methane","Lead"],answer:1,explain:"It aimed to reduce CFCs that damage the ozone layer."},
+   {q:"A volcano that has not erupted in the last 10,000 years and is not expected to is",options:["Active","Dormant","Extinct","Erupting"],answer:2,explain:"Such a volcano is extinct (e.g., Mount Popa)."},
+   {q:"Tsunamis are mainly caused by",options:["Heavy rain","Strong winds","Undersea earthquakes","Drought"],answer:2,explain:"Undersea earthquakes (or volcanic eruptions) displace large volumes of water."}]
+ },
+
+ /* ---------------- CHAPTER 6 ---------------- */
+ {n:6,title:"Earth and Universe",
+  topics:["Solar system","Earth's movements","Moon & its phases","Eclipses","Stars & satellites"],
+  notes:[
+   {h:"The solar system",intro:"The Sun and the bodies that revolve around it. Planets revolve in fixed paths (orbits) and rotate on their axis; they shine by reflecting the Sun's light.",
+    table:{cols:["Planet","Key facts"],rows:[
+     ["Mercury","Smallest; closest to the Sun; no satellite."],
+     ["Venus","Hottest planet; the morning & evening star."],
+     ["Earth","Only planet with life; 70% water (the 'blue planet')."],
+     ["Mars","The red planet; has 2 moons."],
+     ["Jupiter","Largest planet; made of hydrogen & helium."],
+     ["Saturn","Second largest; prominent rings of ice & rock."],
+     ["Uranus","Blue colour due to methane; rotates east to west."],
+     ["Neptune","Farthest planet from the Sun."]]},
+    bite:"Pluto was a planet until 2006, when the IAU reclassified it as a dwarf planet (others: Ceres, Eris, Haumea, Makemake)."},
+   {h:"The Sun & stars",
+    points:["The Sun is a star \u2013 a huge ball of hot gases. Hydrogen changes to helium by nuclear fusion, releasing solar energy.",
+     "Its layers: core (centre), photosphere (visible surface), corona (outer atmosphere).",
+     "Stars look tiny because they are very far away. Constellations are patterns of stars \u2013 Ursa Major (Great Bear), Orion (Hunter), Scorpius.",
+     "Asteroids orbit the Sun in the asteroid belt between Mars and Jupiter; comets have a glowing tail near the Sun."]},
+   {h:"Earth's movements",
+    defs:[
+     ["Rotation","Spinning on its axis once every 24 hours \u2013 causes day and night. Earth's axis is tilted at 23.5\u00b0."],
+     ["Revolution","Moving around the Sun once in ~365 days \u2013 together with the tilt, causes the seasons."]],
+    points:["When it is winter in India (Northern Hemisphere) it is summer in Australia (Southern Hemisphere)."]},
+   {h:"The Moon, phases & eclipses",
+    points:["The Moon is Earth's natural satellite, about 1/4 of Earth's size, with no light, air or water of its own. Its gravity is 1/6 of Earth's.",
+     "Phases (over ~28 days): New Moon \u2192 Crescent \u2192 Half \u2192 Gibbous \u2192 Full Moon. Waxing = growing, waning = shrinking.",
+     "Solar eclipse: the Moon comes between the Sun and the Earth.",
+     "Lunar eclipse: the Moon moves into the Earth's shadow.",
+     "Man first landed on the Moon on 20 July 1969 (Apollo 11): Neil Armstrong, Edwin Aldrin and Michael Collins."]},
+   {h:"Satellites & space travel",
+    points:["Artificial satellites are man-made; Sputnik-I was the world's first; Aryabhata (1975) was India's first.",
+     "Indians in space: Rakesh Sharma (first), Kalpana Chawla (first Indian woman), Sunita Williams."],
+    bite:"The space age began in 1957. Yuri Gagarin (1961) was the first man and Valentina Tereshkova the first woman in space."}],
+  quiz:[
+   {q:"The smallest planet, and the closest to the Sun, is",options:["Mercury","Venus","Mars","Earth"],answer:0,explain:"Mercury is the smallest planet and nearest the Sun."},
+   {q:"The hottest planet, also called the morning/evening star, is",options:["Mercury","Venus","Mars","Jupiter"],answer:1,explain:"Venus is the hottest planet and shines as the morning & evening star."},
+   {q:"The largest planet in the solar system is",options:["Saturn","Jupiter","Uranus","Neptune"],answer:1,explain:"Jupiter is the largest planet."},
+   {q:"Why is Earth called the 'blue planet'?",options:["It is very cold","About 70% is covered with water","It is made of gas","It has rings"],answer:1,explain:"Around 70% of Earth's surface is water, so it looks blue."},
+   {q:"The spinning of Earth on its axis causes",options:["Seasons","Day and night","Tides","Eclipses"],answer:1,explain:"Rotation (once in 24 hours) causes day and night."},
+   {q:"A solar eclipse occurs when the ____ comes between the Sun and the Earth.",options:["Moon","Earth","Mars","star"],answer:0,explain:"In a solar eclipse the Moon comes between the Sun and the Earth."},
+   {q:"The world's first artificial satellite was",options:["Aryabhata","Sputnik-I","Apollo 11","Bhaskara"],answer:1,explain:"Sputnik-I was the world's first artificial satellite."},
+   {q:"The first Indian to go into space was",options:["Kalpana Chawla","Rakesh Sharma","Sunita Williams","Yuri Gagarin"],answer:1,explain:"Rakesh Sharma was the first Indian in space."},
+   {q:"Pluto is now classified as a",options:["Planet","Dwarf planet","Comet","Asteroid"],answer:1,explain:"Since 2006 Pluto is a dwarf planet."},
+   {q:"The Moon's gravity is about ____ of Earth's gravity.",options:["One-fourth","One-sixth","Equal to","One-tenth"],answer:1,explain:"The Moon's gravity is one-sixth of Earth's."},
+   {q:"Ursa Major is a constellation that represents a",options:["Hunter","Bear","Scorpion","Lion"],answer:1,explain:"Ursa Major means the Great Bear; Orion is the Hunter."},
+   {q:"In the Sun, nuclear fusion changes hydrogen into",options:["Oxygen","Helium","Nitrogen","Carbon"],answer:1,explain:"Hydrogen changes to helium, releasing solar energy."}]
+ },
+
+ /* ---------------- CHAPTER 7 ---------------- */
+ {n:7,title:"Matter and Materials",
+  topics:["States of matter","Changes of state","Expansion & contraction","Solutions","Physical & chemical changes","Properties"],
+  notes:[
+   {h:"States of matter",intro:"Matter is anything that has mass and occupies space. It is made of tiny particles called molecules.",
+    table:{cols:["","Solid","Liquid","Gas"],rows:[
+     ["Molecules","Tightly packed","Less tightly packed","Loosely packed"],
+     ["Shape","Definite","Takes container's shape","No definite shape"],
+     ["Volume","Definite","Definite","No definite volume"],
+     ["Example","Rock, pencil","Water, milk","Oxygen, water vapour"]]}},
+   {h:"Changes in state",
+    defs:[
+     ["Evaporation","Liquid \u2192 gas at any temperature (faster with heat & more surface area)."],
+     ["Melting","Solid \u2192 liquid on heating (ice \u2192 water)."],
+     ["Sublimation","Solid \u2192 gas directly on heating (naphthalene balls)."],
+     ["Condensation","Gas \u2192 liquid on cooling."],
+     ["Freezing","Liquid \u2192 solid on cooling (water \u2192 ice)."]]},
+   {h:"Expansion & contraction",
+    points:["On heating, molecules move more and the substance expands; on cooling it contracts.",
+     "Example: a tight metal lid opens after dipping in hot water (it expands)."],
+    bite:"Most things expand on heating, but water expands on freezing \u2013 ice takes more space than water, which is why a full bottle can crack in the freezer."},
+   {h:"Solutions",intro:"A solution is a uniform mixture. The solute dissolves in the solvent (sugar = solute, water = solvent).",
+    table:{cols:["Example","Type","Solute","Solvent"],rows:[
+     ["Air","Gas in gas","Oxygen","Nitrogen"],
+     ["Soft drink","Gas in liquid","Carbon dioxide","Water"],
+     ["Sugar solution","Solid in liquid","Sugar","Water"],
+     ["Brass","Solid in solid","Zinc","Copper"]]},
+    points:["Miscible liquids mix fully (vinegar in water); immiscible liquids form separate layers (oil & water)."],
+    bite:"Water is the 'universal solvent'. Solids dissolve faster in warm water; gases dissolve less in warm water."},
+   {h:"Physical & chemical changes",
+    defs:[
+     ["Physical change","Only the form changes; no new substance; often reversible \u2013 melting ice, dissolving sugar."],
+     ["Chemical change","A new substance forms; usually permanent \u2013 rusting of iron, burning of paper, souring of milk."]]},
+   {h:"Properties of materials",
+    defs:[
+     ["Transparency","Transparent (light passes \u2013 glass), translucent (partly \u2013 frosted glass), opaque (none \u2013 wood)."],
+     ["Lustre","Lustrous materials shine (metals); non-lustrous do not (wood)."],
+     ["Hardness","Hard (diamond) or soft (chalk)."],
+     ["Solubility","Soluble (salt, sugar) or insoluble (oil, wax)."],
+     ["Magnetic","Magnetic (iron, nickel) or non-magnetic (plastic)."],
+     ["Conductivity","Conductors allow electricity/heat (silver, copper); insulators do not (rubber, wood)."]]}],
+  quiz:[
+   {q:"Matter is anything that has",options:["Colour and no space","Mass and occupies space","Temperature only","Volume but no mass"],answer:1,explain:"Matter has mass and occupies space."},
+   {q:"In which state are molecules packed most tightly?",options:["Solid","Liquid","Gas","All equally"],answer:0,explain:"Solid molecules are packed tightly with strong attraction."},
+   {q:"The change of a solid directly into a gas on heating is called",options:["Melting","Evaporation","Sublimation","Condensation"],answer:2,explain:"Sublimation turns a solid straight into a gas (e.g., naphthalene)."},
+   {q:"The change of a gas into a liquid on cooling is called",options:["Freezing","Condensation","Melting","Evaporation"],answer:1,explain:"Condensation is gas turning to liquid on cooling."},
+   {q:"In a sugar solution, sugar is the ____ and water is the ____.",options:["solvent, solute","solute, solvent","gas, liquid","liquid, gas"],answer:1,explain:"Sugar dissolves (solute) in water (solvent)."},
+   {q:"Which of these is a chemical change?",options:["Melting ice","Dissolving sugar","Rusting of iron","Breaking a pencil"],answer:2,explain:"Rusting forms a new substance, so it is a chemical change."},
+   {q:"Water is often called the",options:["universal solvent","universal solute","best insulator","heaviest liquid"],answer:0,explain:"Most substances dissolve in water, so it is the universal solvent."},
+   {q:"Materials that allow light to pass through completely are",options:["Opaque","Translucent","Transparent","Lustrous"],answer:2,explain:"Transparent materials (like glass) let all light pass through."},
+   {q:"Which liquids do NOT mix and form separate layers?",options:["Miscible","Immiscible","Soluble","Dissolved"],answer:1,explain:"Immiscible liquids (oil & water) form separate layers."},
+   {q:"A good conductor of electricity is",options:["Plastic","Wood","Rubber","Silver"],answer:3,explain:"Silver is an excellent conductor of electricity."},
+   {q:"Water is unusual because it ____ on freezing.",options:["contracts","expands","disappears","melts"],answer:1,explain:"Water expands on freezing, so ice takes more space."}]
+ },
+
+ /* ---------------- CHAPTER 8 ---------------- */
+ {n:8,title:"Force and Energy",
+  topics:["Types of forces","Forms of energy","Simple machines"],
+  notes:[
+   {h:"Force",intro:"A force is a push or pull that can start, stop, speed up, slow down or change the direction or shape of an object.",
+    bite:"Forces are of two kinds: contact forces (need touching \u2013 muscular, frictional) and non-contact forces (act from a distance \u2013 magnetic, electrostatic, gravitational)."},
+   {h:"Types of forces",
+    defs:[
+     ["Muscular force","Force from our muscles (kicking a ball). A contact force."],
+     ["Frictional force","Opposes motion between surfaces; helps us walk, write and grip; wears things out. More on rough surfaces."],
+     ["Mechanical force","Force applied by a machine (a crane, scissors)."],
+     ["Magnetic force","A magnet attracts iron/nickel. Opposite poles attract; like poles repel."],
+     ["Gravitational force","Earth pulls objects towards itself (a fruit falls down)."],
+     ["Electrostatic force","Force from electric charges (a rubbed comb attracts paper)."],
+     ["Buoyant force","The upward push of water on a floating object."]]},
+   {h:"Energy & its forms",intro:"Energy is the ability to do work. It can change from one form to another but cannot be made or destroyed.",
+    defs:[
+     ["Mechanical","Due to motion (kinetic) or position (potential)."],
+     ["Heat","Causes hotness; from the Sun and burning fuel."],
+     ["Light","Makes things visible; can travel through vacuum."],
+     ["Sound","Made by vibrations; needs a medium \u2013 cannot travel through vacuum."],
+     ["Electrical","Movement of electric charges; runs our appliances."],
+     ["Solar / wind / hydro / geothermal","Clean, renewable sources of energy."]],
+    bite:"Energy can neither be created nor destroyed, only converted \u2013 this is the law of conservation of energy."},
+   {h:"Simple machines",intro:"A simple machine makes work easier by changing the direction of a force or reducing the effort. The six simple machines are the lever, inclined plane, wheel & axle, pulley, wedge and screw.",
+    defs:[
+     ["Lever","A rigid bar that turns about a fixed point (fulcrum)."],
+     ["Inclined plane","A sloping ramp; a longer, gentler ramp needs less effort (but more distance)."],
+     ["Wheel and axle","A wheel fixed to an axle \u2013 bicycle pedal, screwdriver, steering wheel."],
+     ["Pulley","A grooved wheel with a rope. A fixed pulley changes the direction of force; a movable pulley reduces effort."],
+     ["Wedge","Used to split or cut \u2013 axe, knife, nail."],
+     ["Screw","An inclined plane wrapped round a cylinder \u2013 bottle cap, bolt."]],
+    table:{cols:["Class of lever","Arrangement","Examples"],rows:[
+     ["Class 1","Fulcrum between effort and load","See-saw, scissors, crowbar, pliers"],
+     ["Class 2","Load between fulcrum and effort","Wheelbarrow, nutcracker, bottle opener"],
+     ["Class 3","Effort between fulcrum and load","Fishing rod, tongs, tweezers"]]}}],
+  quiz:[
+   {q:"A force is a",options:["Push or pull","Type of energy","Living thing","Colour"],answer:0,explain:"A force is a push or pull that changes an object's motion or shape."},
+   {q:"The force that opposes motion between two surfaces is",options:["Gravitational","Magnetic","Frictional","Elastic"],answer:2,explain:"Friction opposes motion and slows moving objects down."},
+   {q:"Which of these is a non-contact force?",options:["Muscular","Frictional","Mechanical","Gravitational"],answer:3,explain:"Gravitational force acts from a distance, so it is a non-contact force."},
+   {q:"The energy possessed by a moving object is",options:["Potential energy","Kinetic energy","Sound energy","Chemical energy"],answer:1,explain:"A moving object has kinetic energy."},
+   {q:"'Energy can neither be created nor destroyed, only converted' is the law of",options:["Gravity","Conservation of energy","Motion","Friction"],answer:1,explain:"This is the law of conservation of energy."},
+   {q:"A see-saw and scissors are examples of which class of lever?",options:["Class 1","Class 2","Class 3","Class 4"],answer:0,explain:"In a Class 1 lever the fulcrum is between the effort and load."},
+   {q:"A fixed pulley is used to",options:["Reduce effort","Change the direction of force","Increase the load","Remove friction"],answer:1,explain:"A fixed pulley changes the direction of force but does not reduce effort."},
+   {q:"Which simple machine is used to split or cut things (like an axe)?",options:["Lever","Pulley","Wedge","Wheel and axle"],answer:2,explain:"A wedge is used to split, cut or separate."},
+   {q:"The upward push of water on a floating object is called",options:["Frictional force","Buoyant force","Elastic force","Magnetic force"],answer:1,explain:"Buoyant force is the upward push of water on a floating object."},
+   {q:"Sound energy cannot travel through",options:["Solids","Liquids","Gases","Vacuum"],answer:3,explain:"Sound needs a medium, so it cannot travel through a vacuum."},
+   {q:"Opposite poles of a magnet ____ each other.",options:["repel","attract","ignore","melt"],answer:1,explain:"Opposite poles attract; like poles repel."},
+   {q:"A long, gentle ramp (inclined plane) needs ____ effort than a short, steep one.",options:["more","less","equal","no"],answer:1,explain:"A longer, gentler ramp needs less effort, though over a greater distance."}]
+ }
+ ]
+},
+{id:"maths",name:"Maths Olympiad Prep",grade:"Class 5",icon:"\u2795",color:"#5a51d6",soft:"#ecebfb",status:"soon",
+ blurb:"Notes and quizzes coming in the next sprint.",chapters:[]},
+{id:"english",name:"English Olympiad Prep",grade:"Class 5",icon:"\u270D\uFE0F",color:"#e8543e",soft:"#fdecea",status:"soon",
+ blurb:"Notes and quizzes coming in the next sprint.",chapters:[]}
+]};
+
+/* ===================== APP ===================== */
+const root=document.getElementById("view");
+const crumbs=document.getElementById("crumbs");
+let state={page:"home",subject:null,chapter:null,tab:"notes"};
+let quiz={i:0,picked:null,correct:0,done:false};
+
+function setSubjectTheme(s){
+  const r=document.documentElement.style;
+  if(s){r.setProperty("--sci",s.color);r.setProperty("--sci-soft",s.soft);
+        r.setProperty("--sci-d",shade(s.color,-18));}
+  else{r.setProperty("--sci","#1f9e6a");r.setProperty("--sci-soft","#e7f5ee");r.setProperty("--sci-d","#157a51");}
+}
+function shade(hex,p){let n=parseInt(hex.slice(1),16),r=n>>16,g=n>>8&255,b=n&255;
+  const f=x=>Math.max(0,Math.min(255,Math.round(x+(x*p/100))));
+  return "#"+(1<<24|f(r)<<16|f(g)<<8|f(b)).toString(16).slice(1);}
+const esc=s=>String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+
+function go(p,opt={}){state={...state,page:p,...opt};if(p!=="chapter")quiz={i:0,picked:null,correct:0,done:false};render();window.scrollTo({top:0,behavior:"instant"});}
+
+function render(){
+  const s=DATA.subjects.find(x=>x.id===state.subject);
+  setSubjectTheme(state.page==="home"?null:s);
+  renderCrumbs(s);
+  if(state.page==="home")return renderHome();
+  if(state.page==="subject")return renderSubject(s);
+  if(state.page==="chapter")return renderChapter(s);
+}
+
+function renderCrumbs(s){
+  let h='<button onclick="go(\'home\')">Home</button>';
+  if(state.page!=="home"&&s){h+='<span class="sep">/</span>';
+    h+=state.page==="subject"?`<span class="here">${esc(s.name)}</span>`
+      :`<button onclick="go('subject',{subject:'${s.id}'})">${esc(s.name)}</button>`;}
+  if(state.page==="chapter"&&s){const c=s.chapters.find(x=>x.n===state.chapter);
+    h+=`<span class="sep">/</span><span class="here">Ch ${c.n}. ${esc(c.title)}</span>`;}
+  crumbs.innerHTML=h;
+}
+
 function renderHome(){
-  const g = document.getElementById('grid');
-  g.innerHTML = '';
-  CH.forEach(ch=>{
-    const stars = mastered[ch.id] ? '★' : '☆';
-    const b = document.createElement('button');
-    b.className='chip'; b.style.setProperty('--accent',ch.accent);
-    b.onclick=()=>openCh(ch.id);
-    b.innerHTML=`<span class="bar"></span>
-      <span class="num">CHAPTER ${ch.id+1}</span>
-      <span class="ico">${ch.icon}</span>
-      <span class="nm">${ch.name}</span>
-      <span class="meta">${ch.cards.length} cards · ${ch.quiz.length} Qs <span class="stars" style="margin-left:auto">${stars}</span></span>`;
-    g.appendChild(b);
-  });
-  updateJar();
-}
-function updateJar(){
-  const n = mastered.filter(Boolean).length;
-  document.getElementById('jarCount').textContent = n;
-  const d = document.getElementById('jarDots'); d.innerHTML='';
-  for(let i=0;i<8;i++){
-    const s=document.createElement('span'); s.className='dot';
-    if(mastered[i]) s.style.background=CH[i].accent;
-    d.appendChild(s);
-  }
-}
-function goHome(){
-  document.getElementById('chapter').classList.remove('on');
-  document.getElementById('home').classList.add('on');
-  renderHome(); window.scrollTo({top:0,behavior:'instant'});
+  const cards=DATA.subjects.map(s=>{
+    const live=s.status==="active",n=s.chapters.length;
+    return `<button class="subj ${live?'active':''}" ${live?`onclick="go('subject',{subject:'${s.id}'})"`:'disabled'}
+      style="--sci:${s.color};--sci-soft:${s.soft};--sci-d:${shade(s.color,-18)}">
+      <span class="spine" style="background:${s.color}"></span>
+      <span class="ico" style="background:${s.soft};color:${shade(s.color,-18)}">${s.icon}</span>
+      <h3>${esc(s.name)}</h3><div class="grade">${esc(s.grade)}</div>
+      <p>${esc(s.blurb)}</p>
+      <div class="meta">
+        ${live?`<span class="chip-count">${n} chapters</span><span class="go">Open \u2192</span>`
+              :`<span class="chip-count">&nbsp;</span><span class="tag soon">Coming soon</span>`}
+      </div></button>`;}).join("");
+  root.innerHTML=`<section class="hero">
+    <div class="eyebrow">Class 5 \u00b7 SOF Olympiad</div>
+    <h1>Revise smart, then test yourself.</h1>
+    <p>Pick a subject to read clear, chapter-wise lesson notes and take a quick quiz on what you've learned. New subjects and chapters get added here as we build them.</p>
+  </section>
+  <div class="subjects">${cards}</div>`;
 }
 
-/* ============ CHAPTER ============ */
-function openCh(id){
-  cur=id; const ch=CH[id];
-  document.documentElement.style.setProperty('--accent', ch.accent);
-  document.querySelector('#chapter').style.setProperty('--accent', ch.accent);
-  document.getElementById('cBig').textContent=ch.icon;
-  document.getElementById('cName').textContent=ch.name;
-  document.getElementById('cSub').textContent=`Chapter ${id+1}`;
-  document.getElementById('home').classList.remove('on');
-  document.getElementById('chapter').classList.add('on');
-  showTab('cards'); renderDeck(); window.scrollTo({top:0,behavior:'instant'});
-}
-function showTab(which){
-  const isCards = which==='cards';
-  document.getElementById('tabCards').classList.toggle('active',isCards);
-  document.getElementById('tabQuiz').classList.toggle('active',!isCards);
-  document.getElementById('cardsPane').classList.toggle('hidden',!isCards);
-  document.getElementById('quizPane').classList.toggle('hidden',isCards);
-  if(!isCards) startQuiz();
-}
-function renderDeck(){
-  const ch=CH[cur]; const d=document.getElementById('deck'); d.innerHTML='';
-  ch.cards.forEach(c=>{
-    const f=document.createElement('div');
-    f.className='flip'; f.tabIndex=0;
-    f.innerHTML=`<div class="inner">
-        <div class="face front"><div class="tag">${c.t}</div><div class="q">${c.q}</div><div class="turn">↻ tap to reveal</div></div>
-        <div class="face back"><div class="tag">Answer</div><div class="a">${c.a}</div></div>
-      </div>`;
-    const flip=()=>f.classList.toggle('flipped');
-    f.addEventListener('click',flip);
-    f.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip();}});
-    d.appendChild(f);
-  });
+function renderSubject(s){
+  if(!s.chapters.length){root.innerHTML=`<div class="placeholder"><b>${esc(s.name)} is on the way</b>Notes and quizzes for this subject will appear here soon.</div>`;return;}
+  const list=s.chapters.map(c=>`
+    <button class="chcard" onclick="go('chapter',{subject:'${s.id}',chapter:${c.n},tab:'notes'})">
+      <span class="chnum">${c.n}</span>
+      <span class="chbody"><h3>${esc(c.title)}</h3>
+        <span class="topics">${c.topics.map(t=>`<span class="topic">${esc(t)}</span>`).join("")}</span></span>
+      <span class="charrow">\u203A</span></button>`).join("");
+  root.innerHTML=`<div class="section-head"><h2>${esc(s.name)}</h2>
+    <span class="count">${s.chapters.length} chapters \u00b7 notes + quiz each</span></div>
+    <div class="chapters">${list}</div>`;
 }
 
-/* ============ QUIZ ============ */
-function startQuiz(){
-  qIndex=0; qScore=0; answered=false;
-  document.getElementById('result').classList.add('hidden');
-  document.getElementById('quizLive').classList.remove('hidden');
-  renderQ();
-}
-function renderQ(){
-  const ch=CH[cur]; const q=ch.quiz[qIndex]; answered=false;
-  document.getElementById('qbar').style.width=((qIndex)/ch.quiz.length*100)+'%';
-  document.getElementById('qnow').textContent=`Question ${qIndex+1} of ${ch.quiz.length}`;
-  document.getElementById('qscore').textContent=`Score ${qScore}`;
-  document.getElementById('qtext').textContent=q.q;
-  const ex=document.getElementById('explain'); ex.classList.remove('show'); ex.innerHTML='';
-  document.getElementById('nextBtn').classList.remove('on');
-  document.getElementById('nextBtn').textContent = (qIndex===ch.quiz.length-1)?'See results →':'Next →';
-  const opts=document.getElementById('opts'); opts.innerHTML='';
-  const keys=['A','B','C','D'];
-  q.o.forEach((text,i)=>{
-    const b=document.createElement('button');
-    b.className='opt'; b.innerHTML=`<span class="key">${keys[i]}</span><span>${text}</span>`;
-    b.onclick=()=>pick(i,b);
-    opts.appendChild(b);
-  });
-}
-function pick(i,btn){
-  if(answered) return; answered=true;
-  const ch=CH[cur]; const q=ch.quiz[qIndex];
-  const all=document.querySelectorAll('#opts .opt');
-  all.forEach((o,idx)=>{ o.disabled=true;
-    if(idx===q.c) o.classList.add('correct');
-    if(idx===i && i!==q.c) o.classList.add('wrong');
-  });
-  const ex=document.getElementById('explain');
-  if(i===q.c){ qScore++; ex.innerHTML=`<b>Correct! ✅</b> ${q.e}`; }
-  else { ex.innerHTML=`<b>Not quite.</b> The answer is <b>${['A','B','C','D'][q.c]}</b>. ${q.e}`; }
-  ex.classList.add('show');
-  document.getElementById('qscore').textContent=`Score ${qScore}`;
-  document.getElementById('nextBtn').classList.add('on');
-}
-function nextQ(){
-  const ch=CH[cur];
-  if(qIndex < ch.quiz.length-1){ qIndex++; renderQ(); }
-  else finishQuiz();
-}
-function finishQuiz(){
-  const ch=CH[cur]; const total=ch.quiz.length;
-  const pct=Math.round(qScore/total*100);
-  document.getElementById('qbar').style.width='100%';
-  if(pct>=80) mastered[cur]=true;
-  let medal,title,msg;
-  if(pct>=80){ medal='🏆'; title='Chapter mastered!'; msg='Brilliant work — you earned your mastery star.'; }
-  else if(pct>=50){ medal='🌟'; title='Great effort!'; msg='So close to mastery. Flip the cards once more and try again!'; }
-  else { medal='🔬'; title='Keep exploring!'; msg='Every scientist practises. Review the cards and give it another go.'; }
-  const r=document.getElementById('result');
-  document.getElementById('quizLive').classList.add('hidden');
-  r.classList.remove('hidden');
-  r.innerHTML=`<div class="medal">${medal}</div>
-    <h3>${title}</h3>
-    <div class="score">${qScore} / ${total}</div>
-    <p>${msg}</p>
-    <div class="btns">
-      <button class="btn2 fill" onclick="startQuiz()">Try again</button>
-      <button class="btn2" onclick="showTab('cards')">Review cards</button>
-      <button class="btn2" onclick="goHome()">All chapters</button>
-    </div>`;
-  updateJar();
+function renderChapter(s){
+  const c=s.chapters.find(x=>x.n===state.chapter);
+  root.innerHTML=`<div class="detail-head">
+    <div class="kicker">Chapter ${c.n}</div><h2>${esc(c.title)}</h2>
+    <div class="tabs" role="tablist">
+      <button role="tab" aria-selected="${state.tab==='notes'}" onclick="go('chapter',{tab:'notes'})">Lesson notes</button>
+      <button role="tab" aria-selected="${state.tab==='quiz'}" onclick="go('chapter',{tab:'quiz'})">Quiz \u00b7 ${c.quiz.length} Q</button>
+    </div></div>
+    <div id="panel"></div>`;
+  state.tab==="notes"?renderNotes(c):renderQuiz(c);
 }
 
-renderHome();
+function renderNotes(c){
+  const sec=s=>{
+    let h=`<div class="nsec"><h3>${esc(s.h)}</h3>`;
+    if(s.intro)h+=`<p class="intro">${esc(s.intro)}</p>`;
+    if(s.points)h+=`<ul>${s.points.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>`;
+    if(s.defs)h+=`<dl class="deflist">${s.defs.map(d=>`<div class="def"><dt>${esc(d[0])}</dt><dd>${esc(d[1])}</dd></div>`).join("")}</dl>`;
+    if(s.table)h+=tableHTML(s.table);
+    if(s.bite)h+=`<div class="bite"><b>Olympiad Bite</b>${esc(s.bite)}</div>`;
+    return h+`</div>`;};
+  document.getElementById("panel").innerHTML=`<div class="notes">${c.notes.map(sec).join("")}</div>`;
+}
+function tableHTML(t){
+  return `<table class="facts"><thead><tr>${t.cols.map(x=>`<th>${esc(x)}</th>`).join("")}</tr></thead>
+    <tbody>${t.rows.map(r=>`<tr>${r.map(x=>`<td>${esc(x)}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+}
+
+function renderQuiz(c){
+  const p=document.getElementById("panel");
+  if(quiz.done){
+    const total=c.quiz.length,sc=quiz.correct,pct=Math.round(sc/total*100);
+    const msg=pct>=80?"Brilliant work!":pct>=50?"Good going \u2013 review and try again.":"Keep practising \u2013 the notes will help.";
+    p.innerHTML=`<div class="quiz"><div class="result">
+      <div class="big">${sc}/${total}</div><h3>${msg}</h3><p>You scored ${pct}% on ${esc(c.title)}.</p>
+      <button class="btn primary" onclick="quiz={i:0,picked:null,correct:0,done:false};renderQuiz(curChapter())">Try again</button>
+      <button class="btn ghost" onclick="go('chapter',{tab:'notes'})" style="margin-left:8px">Back to notes</button>
+    </div></div>`;return;}
+  const q=c.quiz[quiz.i],answered=quiz.picked!==null;
+  const opts=q.options.map((o,i)=>{
+    let cls="opt";if(answered){if(i===q.answer)cls+=" correct";else if(i===quiz.picked)cls+=" wrong";}
+    return `<button class="${cls}" ${answered?"disabled":""} onclick="pick(${i})">
+      <span class="key">${"ABCD"[i]}</span><span>${esc(o)}</span></button>`;}).join("");
+  p.innerHTML=`<div class="quiz">
+    <div class="qbar"><div class="progress"><i style="width:${(quiz.i)/c.quiz.length*100}%"></i></div>
+      <span class="score">Score <b>${quiz.correct}</b> / ${c.quiz.length}</span></div>
+    <div class="qcard"><div class="qn">Question ${quiz.i+1} of ${c.quiz.length}</div>
+      <div class="qtext">${esc(q.q)}</div><div class="opts">${opts}</div>
+      ${answered?`<div class="explain"><b>${quiz.picked===q.answer?"Correct! ":"Answer: "+("ABCD"[q.answer])+". "}</b>${esc(q.explain)}</div>`:""}
+      <div class="qnav">
+        <button class="btn primary" ${answered?"":"disabled"} onclick="next()">${quiz.i+1<c.quiz.length?"Next question \u2192":"See result"}</button>
+      </div></div></div>`;
+}
+function curChapter(){const s=DATA.subjects.find(x=>x.id===state.subject);return s.chapters.find(x=>x.n===state.chapter);}
+function pick(i){if(quiz.picked!==null)return;quiz.picked=i;if(i===curChapter().quiz[quiz.i].answer)quiz.correct++;renderQuiz(curChapter());}
+function next(){const c=curChapter();if(quiz.i+1<c.quiz.length){quiz.i++;quiz.picked=null;}else{quiz.done=true;}renderQuiz(c);}
+
+document.getElementById("home").onclick=()=>go("home");
+go("home");
 </script>
+</body>
+</html>
